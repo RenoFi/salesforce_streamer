@@ -1,20 +1,25 @@
 # frozen_string_literal: true
 
-require 'yaml'
-require 'logger'
-
 module SalesforceStreamer
   # Manages server configuration.
   class Configuration
     attr_accessor :environment, :logger
-    attr_reader :services
+    attr_reader :push_topic_data
+    attr_writer :manage_topics
 
     def initialize
+      @environment = :development
       @logger = Logger.new(IO::NULL)
+      @manage_topics = false
     end
 
-    def load_services(path)
-      @services = YAML.safe_load(File.read(path))
+    def manage_topics?
+      @manage_topics
+    end
+
+    def load_push_topic_data(path)
+      data = YAML.safe_load(File.read(path), [], [], true)
+      @push_topic_data = data[environment.to_s]
     end
 
     def restforce_logger!

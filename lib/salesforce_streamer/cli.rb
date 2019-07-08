@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require 'optparse'
-require 'salesforce_streamer'
-require 'salesforce_streamer/configuration'
-
 module SalesforceStreamer
   class CLI
     def initialize(argv)
@@ -14,8 +10,7 @@ module SalesforceStreamer
     end
 
     def run
-      # initialize new server with @config
-      # start the server
+      Launcher.new(config: @config).run
     end
 
     private
@@ -23,7 +18,7 @@ module SalesforceStreamer
     def setup_options
       @parser = OptionParser.new do |o|
         o.on "-C", "--config PATH", "Load PATH as a config file" do |arg|
-          @config.load_services arg
+          @config.load_push_topic_data arg
         end
 
         o.on "-e", "--environment ENVIRONMENT",
@@ -31,14 +26,23 @@ module SalesforceStreamer
           @config.environment = arg
         end
 
-        o.on "-v", "--verbose", "Activate the Restforce logger" do
-          @config.logger = Logger.new(STDOUT)
+        o.on "-r", "--restforce-logger", "Activate the Restforce logger" do
           @config.restforce_logger!
+        end
+
+        o.on "-v", "--verbose LEVEL", "Set the log level (default no logging)" do |arg|
+          logger = Logger.new(STDOUT)
+          logger.level = arg
+          @config.logger = logger
         end
 
         o.on "-V", "--version", "Print the version information" do
           puts "streamer version #{SalesforceStreamer::VERSION}"
           exit 0
+        end
+
+        o.on "-x", "--topics", "Activate PushTopic Management (default off)" do
+          @config.manage_topics = true
         end
 
         o.banner = "streamer OPTIONS"
