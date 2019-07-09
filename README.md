@@ -1,7 +1,7 @@
 # SalesforceStreamer
 
-An wrapper around the Restforce Streaming API to receive real time updates from
-your Salesforce instance.
+A wrapper around the Restforce Streaming API to receive real time updates from
+your Salesforce instance with a built-in PushTopic manager.
 
 ## Installation
 
@@ -17,7 +17,72 @@ And then execute:
 
 ## Usage
 
-TODO: Write usage instructions here
+Create a YAML file to configure your server subscriptions.  The configuration
+for each subscription must have a nested `salesforce:` key. These settings will
+be synced to your Salesforce instance when the `-x` flag is set on the command
+line. For more information about the `replay:` and `notify_fields_for` options
+please see the Salesforce Streaming API reference documentation.
+
+```yaml
+# config/streamer.yml
+---
+base: &DEFAULT
+  accounts:
+    handler: "AccountChangeHandler"
+    replay: -1
+    salesforce:
+      name: "AllAccounts"
+      api_version: "41.0"
+      description: "Sync Accounts"
+      notify_fields_for: "Referenced"
+      query: "Select Id, Name From Account"
+
+development:
+  <<: *DEFAULT
+```
+
+Define your handlers in your project.
+
+```ruby
+# lib/account_change_handler.rb
+class AccountChangeHandler
+  def self.call(message)
+    puts message
+  end
+end
+```
+
+Set your Restforce ENV variables in order to establish a connection. See the
+Restforce API documentation for more details. Then start the server using the
+command line interface.
+
+```
+$ bundle exec streamer -C config/streamer.yml -x -v INFO
+I, [2019-07-08T22:16:34.104271 #26973]  INFO -- : Launching Streamer Services
+I, [2019-07-08T22:16:34.794933 #26973]  INFO -- : Running Topic Manager
+I, [2019-07-08T22:16:41.355422 #26973]  INFO -- : Starting Server
+```
+
+For very verbose logs, also use the `-r` flag to activate the Restforce client
+logger - not recommended for production.
+
+You can start up the server without syncing the push topic configuration if you
+know the topics are already configured appropriately. Remove the `-x` flag from
+the CLI to skip the topic management component.
+
+```
+$ bundle exec streamer -C config/streamer.yml -v INFO
+I, [2019-07-08T22:16:34.104271 #26973]  INFO -- : Launching Streamer Services
+I, [2019-07-08T22:16:34.794933 #26973]  INFO -- : Starting Server
+```
+
+By default, the CLI will load the YAML based on the `RACK_ENV` environment
+variable, or default to `:development` if not set. You can override this in the
+CLI with the `-e ENV` flag.
+
+```
+$ bundle exec streamer -C config/streamer.yml -e production
+```
 
 ## Development
 

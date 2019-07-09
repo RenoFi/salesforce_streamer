@@ -8,7 +8,7 @@ module SalesforceStreamer
     attr_writer :manage_topics
 
     def initialize
-      @environment = :development
+      @environment = ENV['RACK_ENV'] || :development
       @logger = Logger.new(IO::NULL)
       @manage_topics = false
     end
