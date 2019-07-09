@@ -15,6 +15,7 @@ require 'salesforce_streamer/server'
 require 'salesforce_streamer/version'
 require 'salesforce_streamer/launcher'
 
+require 'core_extensions/cookiejar/cookie_validation'
 
 # SalesforceStreamer wraps the Restforce Streaming API implementation so that
 # your PushTopics are managed in the same place as your server set up.
