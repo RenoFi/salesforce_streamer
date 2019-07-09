@@ -78,9 +78,11 @@ file and the entry point to your application.
 
 ```
 $ bundle exec streamer -C config/streamer.yml -r ./lib/app -x -v INFO
-I, [2019-07-08T22:16:34.104271 #26973]  INFO -- : Launching Streamer Services
-I, [2019-07-08T22:16:34.794933 #26973]  INFO -- : Running Topic Manager
-I, [2019-07-08T22:16:41.355422 #26973]  INFO -- : Starting Server
+I, [2019-07-09T15:19:55.862296 #78537]  INFO -- : Launching Streamer Services
+I, [2019-07-09T15:19:55.862351 #78537]  INFO -- : Running Topic Manager
+I, [2019-07-09T15:19:56.860998 #78537]  INFO -- : New PushTopic AllAccounts
+I, [2019-07-09T15:19:56.861079 #78537]  INFO -- : Upsert PushTopic AllAccounts
+I, [2019-07-09T15:19:57.591241 #78537]  INFO -- : Starting Server
 ```
 
 For very verbose logs, also use the `--verbose-restforce` flag to activate the
@@ -93,6 +95,10 @@ the CLI to skip the topic management component.
 ```
 $ bundle exec streamer -C config/streamer.yml -r ./lib/app -v INFO
 I, [2019-07-08T22:16:34.104271 #26973]  INFO -- : Launching Streamer Services
+I, [2019-07-09T15:19:55.862351 #78537]  INFO -- : Running Topic Manager
+I, [2019-07-09T15:19:56.860998 #78537]  INFO -- : New PushTopic AllAccounts
+I, [2019-07-09T15:19:56.861079 #78537]  INFO -- : Upsert PushTopic AllAccounts
+I, [2019-07-09T15:19:56.861109 #78537]  INFO -- : Skipping upsert because manage topics is off
 I, [2019-07-08T22:16:34.794933 #26973]  INFO -- : Starting Server
 ```
 
@@ -112,7 +118,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/salesforce_streamer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/renofi/salesforce_streamer. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 

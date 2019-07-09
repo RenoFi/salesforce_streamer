@@ -33,11 +33,11 @@ RSpec.describe SalesforceStreamer::TopicManager do
       end
       let(:push_topics) { [SalesforceStreamer::PushTopic.new(data: data)] }
 
-      it 'does not set push_topic.id' do
+      it 'sets push_topic.id' do
         response = OpenStruct.new(Id: 'abc123')
         allow(client).to receive(:push_topic_by_name) { response }
         subject
-        expect(push_topics[0].id).to eq nil
+        expect(push_topics[0].id).to eq 'abc123'
       end
 
       it 'does not upsert when push_topic_by_name returns nil' do

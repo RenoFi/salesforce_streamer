@@ -18,7 +18,7 @@ module SalesforceStreamer
 
     # Returns nil or an instance of Restforce::SObject
     def push_topic_by_name(name)
-      query = QUERY.dup.gsub("\n", '').gsub('{{NAME}}', name)
+      query = QUERY.dup.gsub(/\s+/, ' ').gsub('{{NAME}}', name)
       @client.query(query).first
     end
 

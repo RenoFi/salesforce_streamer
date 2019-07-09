@@ -37,7 +37,7 @@ module SalesforceStreamer
 
     def strip_spaces(str)
       raise(NilQueryError, @name) unless str
-      str.gsub("\n", ' ').gsub("\s+", ' ')
+      str.gsub(/\s+/, ' ')
     end
   end
 end

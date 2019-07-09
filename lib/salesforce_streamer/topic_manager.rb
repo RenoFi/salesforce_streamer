@@ -12,12 +12,10 @@ module SalesforceStreamer
     end
 
     def run
-      return unless @config.manage_topics?
       @logger.info 'Running Topic Manager'
       @push_topics.each do |push_topic|
         @logger.debug push_topic.to_s
         if diff?(push_topic)
-          @logger.debug 'diff?=true'
           upsert(push_topic)
         end
       end
@@ -27,18 +25,27 @@ module SalesforceStreamer
 
     def diff?(push_topic)
       hashie = @client.push_topic_by_name(push_topic.name)
-      return true unless hashie
-      @logger.debug hashie.to_h.to_s
+      unless hashie
+        @logger.info "New PushTopic #{push_topic.name}"
+        return true
+      end
+      @logger.debug "Remote PushTopic found with hash=#{hashie.to_h}"
       push_topic.id = hashie.Id
       return true unless push_topic.query.eql?(hashie.Query)
       return true unless push_topic.name.eql?(hashie.Name)
       return true unless push_topic.notify_for_fields.eql?(hashie.NotifyForFields)
       return true unless push_topic.api_version.eql?(hashie.ApiVersion)
+      @logger.debug 'No differences detected'
       false
     end
 
     def upsert(push_topic)
-      @client.upsert_push_topic(push_topic)
+      @logger.info "Upsert PushTopic #{push_topic.name}"
+      if @config.manage_topics?
+        @client.upsert_push_topic(push_topic)
+      else
+        @logger.info 'Skipping upsert because manage topics is off'
+      end
     end
   end
 end
