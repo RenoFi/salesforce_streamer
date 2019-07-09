@@ -5,20 +5,32 @@ module SalesforceStreamer
     def initialize(argv)
       @argv = argv
       @config = Configuration.new
+      @push_topics_loaded = false
       setup_options
       @parser.parse! @argv
     end
 
     def run
+      validate!
       Launcher.new(config: @config).run
     end
 
     private
 
+    def validate!
+      raise(MissingCLIFlagError, '--config PATH') unless @push_topics_loaded
+      raise(MissingCLIFlagError, '--require PATH') unless @config.require_path
+    rescue MissingCLIFlagError => e
+      puts e
+      puts @parser
+      exit 1
+    end
+
     def setup_options
       @parser = OptionParser.new do |o|
         o.on "-C", "--config PATH", "Load PATH as a config file" do |arg|
           @config.load_push_topic_data arg
+          @push_topics_loaded = true
         end
 
         o.on "-e", "--environment ENVIRONMENT",
@@ -26,7 +38,11 @@ module SalesforceStreamer
           @config.environment = arg
         end
 
-        o.on "-r", "--restforce-logger", "Activate the Restforce logger" do
+        o.on "-r", "--require PATH", "Load PATH as the entry point to your application" do |arg|
+          @config.require_path = arg
+        end
+
+        o.on "--verbose-restforce", "Activate the Restforce logger" do
           @config.restforce_logger!
         end
 

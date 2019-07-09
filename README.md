@@ -57,21 +57,21 @@ Restforce API documentation for more details. Then start the server using the
 command line interface.
 
 ```
-$ bundle exec streamer -C config/streamer.yml -x -v INFO
+$ bundle exec streamer -C config/streamer.yml -r ./lib/app -x -v INFO
 I, [2019-07-08T22:16:34.104271 #26973]  INFO -- : Launching Streamer Services
 I, [2019-07-08T22:16:34.794933 #26973]  INFO -- : Running Topic Manager
 I, [2019-07-08T22:16:41.355422 #26973]  INFO -- : Starting Server
 ```
 
-For very verbose logs, also use the `-r` flag to activate the Restforce client
-logger - not recommended for production.
+For very verbose logs, also use the `--verbose-restforce` flag to activate the
+Restforce client logger - not recommended for production.
 
 You can start up the server without syncing the push topic configuration if you
 know the topics are already configured appropriately. Remove the `-x` flag from
 the CLI to skip the topic management component.
 
 ```
-$ bundle exec streamer -C config/streamer.yml -v INFO
+$ bundle exec streamer -C config/streamer.yml -r ./lib/app -v INFO
 I, [2019-07-08T22:16:34.104271 #26973]  INFO -- : Launching Streamer Services
 I, [2019-07-08T22:16:34.794933 #26973]  INFO -- : Starting Server
 ```
@@ -81,7 +81,7 @@ variable, or default to `:development` if not set. You can override this in the
 CLI with the `-e ENV` flag.
 
 ```
-$ bundle exec streamer -C config/streamer.yml -e production
+$ bundle exec streamer -C config/streamer.yml -r ./lib/app -e production
 ```
 
 ## Development

@@ -24,6 +24,18 @@ module SalesforceStreamer
     private
 
     def load_server_configuration
+      require_application
+      initialize_push_topics
+    end
+
+    def require_application
+      if @config.require_path
+        @logger.debug 'Loading the require path'
+        require @config.require_path
+      end
+    end
+
+    def initialize_push_topics
       @logger.debug 'Loading and validating PushTopics configuration'
       @push_topics = []
       @config.push_topic_data.values.each do |topic_data|
