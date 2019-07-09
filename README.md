@@ -17,6 +17,8 @@ And then execute:
 
 ## Usage
 
+### Configure Push Topics
+
 Create a YAML file to configure your server subscriptions.  The configuration
 for each subscription must have a nested `salesforce:` key. These settings will
 be synced to your Salesforce instance when the `-x` flag is set on the command
@@ -41,7 +43,18 @@ development:
   <<: *DEFAULT
 ```
 
-Define your handlers in your project.
+It's important to note that the way push topics are managed is by the Salesforce
+name attribute.  This should uniquely identify each push topic.  It is not
+recommended to change the name of your push topic definitions; otherwise, the
+push topic manager will not find a push topic in Salesforce resulting in the
+creation of a brand new push topic. If the push topic manager identifies a
+difference in any of the other Salesforce attributes, then it will update the
+push topic in Salesforce before starting the streaming server.
+
+### Define Message Handlers
+
+Define your handlers somewhere in your project. They must respond to
+`.call(str)`.
 
 ```ruby
 # lib/account_change_handler.rb
@@ -52,9 +65,16 @@ class AccountChangeHandler
 end
 ```
 
+### Prepare The Environment
+
 Set your Restforce ENV variables in order to establish a connection. See the
 Restforce API documentation for more details. Then start the server using the
 command line interface.
+
+### Launch The Streamer
+
+Launch the `streamer` service, pointing it to your push topic configuration YAML
+file and the entry point to your application.
 
 ```
 $ bundle exec streamer -C config/streamer.yml -r ./lib/app -x -v INFO
