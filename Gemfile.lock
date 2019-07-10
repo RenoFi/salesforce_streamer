@@ -45,7 +45,6 @@ GEM
     hashie (3.6.0)
     http_parser.rb (0.6.0)
     json (2.2.0)
-    minitest (5.11.3)
     multi_json (1.13.1)
     multipart-post (2.1.1)
     public_suffix (3.1.1)
@@ -86,7 +85,6 @@ DEPENDENCIES
   bundler (~> 2.0)
   byebug (~> 11.0.1)
   codecov (~> 0.1.14)
-  minitest (~> 5.0)
   rake (~> 10.0)
   rspec (~> 3.0)
   salesforce_streamer!
