@@ -1,7 +1,7 @@
 # frozen_string_literal: string
 
 RSpec.describe SalesforceStreamer::TopicManager do
-  let(:client) { double(push_topic_by_name: {}, upsert_push_topic: true) }
+  let(:client) { double(find_push_topic_by_name: {}, upsert_push_topic: true) }
   let(:config) { SalesforceStreamer::Configuration.new }
 
   before { allow(SalesforceStreamer).to receive(:salesforce_client) { client } }
@@ -35,13 +35,13 @@ RSpec.describe SalesforceStreamer::TopicManager do
 
       it 'sets push_topic.id' do
         response = OpenStruct.new(Id: 'abc123')
-        allow(client).to receive(:push_topic_by_name) { response }
+        allow(client).to receive(:find_push_topic_by_name) { response }
         subject
         expect(push_topics[0].id).to eq 'abc123'
       end
 
-      it 'does not upsert when push_topic_by_name returns nil' do
-        allow(client).to receive(:push_topic_by_name) { nil }
+      it 'does not upsert when find_push_topic_by_name returns nil' do
+        allow(client).to receive(:find_push_topic_by_name) { nil }
         expect(client).to_not receive(:upsert_push_topic)
         subject
       end
@@ -51,7 +51,7 @@ RSpec.describe SalesforceStreamer::TopicManager do
 
         it 'sets push_topic.id' do
           response = OpenStruct.new(Id: 'abc123')
-          allow(client).to receive(:push_topic_by_name) { response }
+          allow(client).to receive(:find_push_topic_by_name) { response }
           subject
           expect(push_topics[0].id).to eq response.Id
         end
@@ -65,13 +65,13 @@ RSpec.describe SalesforceStreamer::TopicManager do
             ApiVersion: push_topics[0].api_version
           }
           response = OpenStruct.new(h)
-          allow(client).to receive(:push_topic_by_name) { response }
+          allow(client).to receive(:find_push_topic_by_name) { response }
           expect(client).to_not receive(:upsert_push_topic)
           subject
         end
 
-        it 'upsert when push_topic_by_name returns nil' do
-          allow(client).to receive(:push_topic_by_name) { nil }
+        it 'upsert when find_push_topic_by_name returns nil' do
+          allow(client).to receive(:find_push_topic_by_name) { nil }
           expect(client).to receive(:upsert_push_topic)
           subject
         end
@@ -85,7 +85,7 @@ RSpec.describe SalesforceStreamer::TopicManager do
             ApiVersion: push_topics[0].api_version
           }
           response = OpenStruct.new(h)
-          allow(client).to receive(:push_topic_by_name) { response }
+          allow(client).to receive(:find_push_topic_by_name) { response }
           expect(client).to receive(:upsert_push_topic)
           subject
         end
@@ -99,7 +99,7 @@ RSpec.describe SalesforceStreamer::TopicManager do
             ApiVersion: push_topics[0].api_version
           }
           response = OpenStruct.new(h)
-          allow(client).to receive(:push_topic_by_name) { response }
+          allow(client).to receive(:find_push_topic_by_name) { response }
           expect(client).to receive(:upsert_push_topic)
           subject
         end
@@ -113,7 +113,7 @@ RSpec.describe SalesforceStreamer::TopicManager do
             ApiVersion: push_topics[0].api_version
           }
           response = OpenStruct.new(h)
-          allow(client).to receive(:push_topic_by_name) { response }
+          allow(client).to receive(:find_push_topic_by_name) { response }
           expect(client).to receive(:upsert_push_topic)
           subject
         end
@@ -127,7 +127,7 @@ RSpec.describe SalesforceStreamer::TopicManager do
             ApiVersion: '1.0'
           }
           response = OpenStruct.new(h)
-          allow(client).to receive(:push_topic_by_name) { response }
+          allow(client).to receive(:find_push_topic_by_name) { response }
           expect(client).to receive(:upsert_push_topic)
           subject
         end
