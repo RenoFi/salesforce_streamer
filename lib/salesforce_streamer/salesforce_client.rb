@@ -17,7 +17,7 @@ module SalesforceStreamer
     end
 
     # Returns nil or an instance of Restforce::SObject
-    def push_topic_by_name(name)
+    def find_push_topic_by_name(name)
       query = QUERY.dup.gsub(/\s+/, ' ').gsub('{{NAME}}', name)
       @client.query(query).first
     end
@@ -37,7 +37,7 @@ module SalesforceStreamer
 
     private
 
-    QUERY = <<~SOQL.freeze
+    QUERY = <<~SOQL.chomp.freeze
     SELECT Id, Name, ApiVersion, Description, NotifyForFields, Query, isActive
     FROM PushTopic
     WHERE Name = '{{NAME}}'

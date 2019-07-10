@@ -24,7 +24,7 @@ module SalesforceStreamer
     private
 
     def diff?(push_topic)
-      hashie = @client.push_topic_by_name(push_topic.name)
+      hashie = @client.find_push_topic_by_name(push_topic.name)
       unless hashie
         @logger.info "New PushTopic #{push_topic.name}"
         return true
