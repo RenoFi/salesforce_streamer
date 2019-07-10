@@ -39,6 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest", "~> 5.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "byebug", "~> 11.0.1"
+  spec.add_development_dependency "codecov", "~> 0.1.14"
   spec.add_dependency "restforce", "~> 3.1.0"
   spec.add_dependency "faye", "~> 1.2.4"
 end
