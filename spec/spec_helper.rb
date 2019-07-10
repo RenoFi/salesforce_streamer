@@ -1,5 +1,11 @@
 require 'bundler/setup'
 require 'byebug'
+
+if ENV['CI'] == 'true'
+  require 'codecov'
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
+end
+
 require 'salesforce_streamer'
 
 RSpec.configure do |config|
