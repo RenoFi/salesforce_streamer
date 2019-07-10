@@ -79,13 +79,14 @@ RSpec.describe SalesforceStreamer::SalesforceClient do
       it 'calls Restforce.upsert with proper arguments' do
         push_topic.id = 123
         attribute_hash = {
+          'Id' => 123,
           'Name' => 'Name',
           'ApiVersion' => '41.0',
           'Description' => 'Name',
           'NotifyForFields' => 'Referenced',
           'Query' => 'Select Id From Account'
         }
-        args = ['PushTopic', 123, attribute_hash]
+        args = ['PushTopic', :Id, attribute_hash]
         expect(restforce).to receive(:upsert!).with(*args)
         subject
       end

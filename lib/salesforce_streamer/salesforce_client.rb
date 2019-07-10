@@ -24,9 +24,8 @@ module SalesforceStreamer
 
     # Returns true or raises an exception if the upsert fails
     def upsert_push_topic(push_topic)
-      @client.upsert!(
-        'PushTopic',
-        push_topic.id,
+      @client.upsert!('PushTopic', :Id,
+        'Id'              => push_topic.id,
         'Name'            => push_topic.name,
         'ApiVersion'      => push_topic.api_version,
         'Description'     => push_topic.description,
