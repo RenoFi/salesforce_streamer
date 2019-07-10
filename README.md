@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/RenoFi/salesforce_streamer.svg?branch=master)](https://travis-ci.org/RenoFi/salesforce_streamer)
 
+[![codecov](https://codecov.io/gh/RenoFi/salesforce_streamer/branch/master/graph/badge.svg)](https://codecov.io/gh/RenoFi/salesforce_streamer)
+
 # SalesforceStreamer
 
 A wrapper around the Restforce Streaming API to receive real time updates from
