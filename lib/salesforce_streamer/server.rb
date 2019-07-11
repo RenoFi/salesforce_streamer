@@ -7,7 +7,7 @@ module SalesforceStreamer
     def initialize(config:, push_topics: [])
       @logger = config.logger
       @push_topics = push_topics
-      @client = ::SalesforceStreamer.salesforce_client
+      @client = Restforce.new
     end
 
     def run
@@ -30,11 +30,11 @@ module SalesforceStreamer
 
     def start_em
       EM.run do
-        @push_topics.each do |topic|
-          @client.subscribe(topic.name, replay: topic.replay) do |msg|
+        @push_topics.map do |topic|
+          @client.subscribe topic.name, replay: topic.replay.to_i do |msg|
             @logger.debug(msg)
             topic.handler_constant.call(msg)
-            @logger.info("Message processed: channel=#{msg['channel']} replayId=#{msg.dig('data', 'event', 'replayId')}")
+            @logger.info("Message processed: channel=#{topic.name} replayId=#{msg.dig('event', 'replayId')}")
           end
         end
       end

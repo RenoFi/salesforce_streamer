@@ -40,7 +40,7 @@ base: &DEFAULT
       name: "AllAccounts"
       api_version: "41.0"
       description: "Sync Accounts"
-      notify_fields_for: "Referenced"
+      notify_for_fields: "Referenced"
       query: "Select Id, Name From Account"
 
 development:

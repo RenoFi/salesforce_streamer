@@ -2,7 +2,7 @@
 
 RSpec.describe SalesforceStreamer::Server do
   let(:client) { double(authenticate!: true, subscribe: true) }
-  before { allow(SalesforceStreamer).to receive(:salesforce_client) { client } }
+  before { allow(Restforce).to receive(:new) { client } }
 
   describe '.new' do
     subject { described_class.new push_topics: push_topics, config: config }
@@ -51,6 +51,25 @@ RSpec.describe SalesforceStreamer::Server do
         expect(client).to receive(:subscribe)
           .with(push_topics[0].name, replay: push_topics[0].replay)
         subject
+      end
+
+      context 'when subscriber receives a message' do
+        it 'passes the message to handler_constant.call' do
+          message = {
+            'event' => {
+              'createdDate' => '2019-07-10T16:10:16.764Z',
+              'replayId' => 50,
+              'type'=>'updated'
+            },
+            'sobject' => {
+              'AccountId' => '0011m00000PU8LrAAL',
+              'Id' => '0061m00000E8fSRAAZ'
+            }
+          }
+          allow(client).to receive(:subscribe).and_yield(message)
+          expect(push_topics[0].handler_constant).to receive(:call).with(message)
+          subject
+        end
       end
     end
   end
