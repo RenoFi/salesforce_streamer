@@ -40,5 +40,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "byebug", "~> 11.0.1"
   spec.add_development_dependency "codecov", "~> 0.1.14"
   spec.add_dependency "restforce", "~> 3.1.0"
-  spec.add_dependency "faye", "~> 1.2.4"
+  spec.add_dependency "faye", "~> 0.8.9"
 end

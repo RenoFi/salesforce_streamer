@@ -76,20 +76,6 @@ RSpec.describe SalesforceStreamer::TopicManager do
           subject
         end
 
-        it 'upsert when push topic name changes' do
-          h = {
-            Id: 'a1',
-            Name: 'OldName',
-            NotifyForFields: push_topics[0].notify_for_fields,
-            Query: push_topics[0].query,
-            ApiVersion: push_topics[0].api_version
-          }
-          response = OpenStruct.new(h)
-          allow(client).to receive(:find_push_topic_by_name) { response }
-          expect(client).to receive(:upsert_push_topic)
-          subject
-        end
-
         it 'upsert when push topic query changes' do
           h = {
             Id: 'a1',
