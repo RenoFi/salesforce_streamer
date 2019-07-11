@@ -32,9 +32,8 @@ module SalesforceStreamer
       @logger.debug "Remote PushTopic found with hash=#{hashie.to_h}"
       push_topic.id = hashie.Id
       return true unless push_topic.query.eql?(hashie.Query)
-      return true unless push_topic.name.eql?(hashie.Name)
       return true unless push_topic.notify_for_fields.eql?(hashie.NotifyForFields)
-      return true unless push_topic.api_version.eql?(hashie.ApiVersion)
+      return true unless push_topic.api_version.to_s.eql?(hashie.ApiVersion.to_s)
       @logger.debug 'No differences detected'
       false
     end
