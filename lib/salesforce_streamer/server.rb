@@ -34,7 +34,7 @@ module SalesforceStreamer
           @client.subscribe topic.name, replay: topic.replay.to_i do |msg|
             @logger.debug(msg)
             topic.handler_constant.call(msg)
-            @logger.info("Message processed: channel=#{msg['channel']} replayId=#{msg.dig('data', 'event', 'replayId')}")
+            @logger.info("Message processed: channel=#{topic.name} replayId=#{msg.dig('event', 'replayId')}")
           end
         end
       end
