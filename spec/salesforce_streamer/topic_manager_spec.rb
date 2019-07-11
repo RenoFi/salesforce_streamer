@@ -4,7 +4,7 @@ RSpec.describe SalesforceStreamer::TopicManager do
   let(:client) { double(find_push_topic_by_name: {}, upsert_push_topic: true) }
   let(:config) { SalesforceStreamer::Configuration.new }
 
-  before { allow(SalesforceStreamer).to receive(:salesforce_client) { client } }
+  before { allow(Restforce).to receive(:new) { client } }
 
   describe '.new' do
     subject { described_class.new push_topics: push_topics, config: config }

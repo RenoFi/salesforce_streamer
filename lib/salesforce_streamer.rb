@@ -53,7 +53,4 @@ require 'core_extensions/cookiejar/cookie_validation'
 #     bundle exec streamer -C config/streamer.yml -r -v INFO
 #
 module SalesforceStreamer
-  def self.salesforce_client
-    @salesforce_client ||= SalesforceClient.new
-  end
 end
