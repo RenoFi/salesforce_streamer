@@ -8,7 +8,7 @@ module SalesforceStreamer
       @push_topics = push_topics
       @config = config
       @logger = config.logger
-      @client = Restforce.new
+      @client = SalesforceClient.new
     end
 
     def run
