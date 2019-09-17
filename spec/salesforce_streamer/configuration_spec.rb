@@ -26,4 +26,16 @@ RSpec.describe SalesforceStreamer::Configuration do
       specify { expect(subject).to be_a Hash }
     end
   end
+
+  describe '#exception_adapter.call(exception)' do
+    let(:config) { described_class.new }
+
+    context 'given an Exception' do
+      let(:exception) { StandardError.new('error') }
+
+      subject { config.exception_adapter.call exception }
+
+      specify { expect { subject }.to raise_exception { exception } }
+    end
+  end
 end

@@ -3,7 +3,7 @@
 module SalesforceStreamer
   # Manages server configuration.
   class Configuration
-    attr_accessor :environment, :logger, :require_path, :config_file, :manage_topics, :server
+    attr_accessor :environment, :logger, :require_path, :config_file, :manage_topics, :server, :exception_adapter
 
     def self.instance
       @instance ||= new
@@ -12,6 +12,7 @@ module SalesforceStreamer
     def initialize
       @environment = ENV['RACK_ENV'] || :development
       @logger = Logger.new(IO::NULL)
+      @exception_adapter = proc { |exc| raise exc }
       @manage_topics = false
       @config_file = './config/streamer.yml'
       @require_path = './config/application'

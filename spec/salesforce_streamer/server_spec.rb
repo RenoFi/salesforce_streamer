@@ -71,6 +71,14 @@ RSpec.describe SalesforceStreamer::Server do
           subject
         end
       end
+
+      context 'when subscriber receives a message that raises an exception' do
+        it 'SalesforceStreamer::Configuration.instance.exception_adapter receives .call' do
+          allow(client).to receive(:subscribe).and_yield([])
+          expect(SalesforceStreamer::Configuration.instance.exception_adapter).to receive(:call).with(instance_of(TypeError))
+          subject
+        end
+      end
     end
   end
 end
