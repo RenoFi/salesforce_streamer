@@ -4,11 +4,6 @@ module SalesforceStreamer
   class Server
     attr_writer :push_topics
 
-    def self.configure
-      yield Configuration.instance
-      Configuration.instance.server = self
-    end
-
     def initialize(push_topics: [])
       @logger = Configuration.instance.logger
       @push_topics = push_topics
