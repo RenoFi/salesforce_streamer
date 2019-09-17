@@ -5,7 +5,7 @@ module SalesforceStreamer
   class PushTopic
     attr_accessor :id
     attr_reader :name, :replay, :description, :notify_for_fields, :query,
-      :handler, :handler_constant, :api_version
+                :handler, :handler_constant, :api_version
 
     def initialize(data:)
       @handler           = data['handler']
@@ -28,6 +28,7 @@ module SalesforceStreamer
 
     def validate!
       raise(PushTopicNameTooLongError, @name) if @name.size > 25
+
       @handler_constant = Object.const_get(@handler)
       true
     rescue NameError, TypeError => e
@@ -37,6 +38,7 @@ module SalesforceStreamer
 
     def strip_spaces(str)
       raise(NilQueryError, @name) unless str
+
       str.gsub(/\s+/, ' ')
     end
   end

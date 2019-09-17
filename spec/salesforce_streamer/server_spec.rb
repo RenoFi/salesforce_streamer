@@ -59,7 +59,7 @@ RSpec.describe SalesforceStreamer::Server do
             'event' => {
               'createdDate' => '2019-07-10T16:10:16.764Z',
               'replayId' => 50,
-              'type'=>'updated'
+              'type' => 'updated'
             },
             'sobject' => {
               'AccountId' => '0011m00000PU8LrAAL',

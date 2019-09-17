@@ -15,7 +15,7 @@ module SalesforceStreamer
 
   class PushTopicHandlerMissingError < StandardError
     def initialize(message)
-      super "Unable to load constant #{message.to_s}."
+      super "Unable to load constant #{message}."
     end
   end
 

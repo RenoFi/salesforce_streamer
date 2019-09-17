@@ -23,6 +23,7 @@ module SalesforceStreamer
 
     def push_topic_data
       return @push_topic_data if @push_topic_data
+
       data = YAML.safe_load(File.read(config_file), [], [], true)
       @push_topic_data = data[environment.to_s]
     end

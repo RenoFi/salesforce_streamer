@@ -14,9 +14,7 @@ module SalesforceStreamer
       @logger.info 'Running Topic Manager'
       @push_topics.each do |push_topic|
         @logger.debug push_topic.to_s
-        if diff?(push_topic)
-          upsert(push_topic)
-        end
+        upsert(push_topic) if diff?(push_topic)
       end
     end
 
@@ -33,6 +31,7 @@ module SalesforceStreamer
       return true unless push_topic.query.eql?(hashie.Query)
       return true unless push_topic.notify_for_fields.eql?(hashie.NotifyForFields)
       return true unless push_topic.api_version.to_s.eql?(hashie.ApiVersion.to_s)
+
       @logger.debug 'No differences detected'
       false
     end
