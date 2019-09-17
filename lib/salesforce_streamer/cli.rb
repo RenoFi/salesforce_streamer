@@ -4,26 +4,16 @@ module SalesforceStreamer
   class CLI
     def initialize(argv)
       @argv = argv
-      @config = Configuration.new
+      @config = Configuration.instance
       setup_options
       @parser.parse! @argv
     end
 
     def run
-      validate!
-      Launcher.new(config: @config).run
+      Launcher.new.run
     end
 
     private
-
-    def validate!
-      @config.load_push_topic_data!
-      raise(MissingCLIFlagError, '--require PATH') unless @config.require_path
-    rescue MissingCLIFlagError => e
-      puts e
-      puts @parser
-      exit 1
-    end
 
     def setup_options
       @parser = OptionParser.new do |o|
@@ -45,9 +35,7 @@ module SalesforceStreamer
         end
 
         o.on "-v", "--verbose LEVEL", "Set the log level (default no logging)" do |arg|
-          logger = Logger.new(STDERR)
-          logger.level = arg
-          @config.logger = logger
+          @config.logger = Logger.new(STDERR, level: arg)
         end
 
         o.on "-V", "--version", "Print the version information" do
@@ -59,7 +47,7 @@ module SalesforceStreamer
           @config.manage_topics = true
         end
 
-        o.banner = "streamer OPTIONS"
+        o.banner = "bundle exec streamer OPTIONS"
 
         o.on_tail "-h", "--help", "Show help" do
           puts o

@@ -3,8 +3,7 @@
 module SalesforceStreamer
   # Manages server configuration.
   class Configuration
-    attr_accessor :environment, :logger, :require_path, :config_file
-    attr_writer :manage_topics
+    attr_accessor :environment, :logger, :require_path, :config_file, :manage_topics, :server
 
     def self.instance
       @instance ||= new

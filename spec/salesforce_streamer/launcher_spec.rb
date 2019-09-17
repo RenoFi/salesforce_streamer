@@ -11,7 +11,7 @@ RSpec.describe SalesforceStreamer::Launcher do
 
   context 'loading push topics from :test' do
     let(:path) { './spec/fixtures/configuration/config.yml' }
-    let(:config) { SalesforceStreamer::Configuration.new }
+    let(:config) { SalesforceStreamer::Configuration.instance }
 
     before do
       config.environment = :test
@@ -20,20 +20,20 @@ RSpec.describe SalesforceStreamer::Launcher do
     end
 
     describe '.new' do
-      subject { described_class.new config: config }
+      subject { described_class.new }
 
       specify { expect(subject).to respond_to :run }
 
       it 'calls TopicManager.new with push_topics loaded from config YAML' do
         expect(SalesforceStreamer::TopicManager)
           .to receive(:new)
-          .with(push_topics: kind_of(Array), config: config)
+          .with(push_topics: kind_of(Array))
         subject
       end
     end
 
     describe '#run' do
-      let(:launcher) { described_class.new config: config }
+      let(:launcher) { described_class.new }
 
       subject { launcher.run }
 
