@@ -15,7 +15,8 @@ RSpec.describe SalesforceStreamer::Launcher do
 
     before do
       config.environment = :test
-      config.load_push_topic_data path
+      config.config_file = path
+      config.require_path = nil
     end
 
     describe '.new' do

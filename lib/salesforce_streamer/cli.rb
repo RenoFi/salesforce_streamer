@@ -5,7 +5,6 @@ module SalesforceStreamer
     def initialize(argv)
       @argv = argv
       @config = Configuration.new
-      @push_topics_loaded = false
       setup_options
       @parser.parse! @argv
     end
@@ -18,7 +17,7 @@ module SalesforceStreamer
     private
 
     def validate!
-      raise(MissingCLIFlagError, '--config PATH') unless @push_topics_loaded
+      @config.load_push_topic_data!
       raise(MissingCLIFlagError, '--require PATH') unless @config.require_path
     rescue MissingCLIFlagError => e
       puts e
@@ -29,8 +28,7 @@ module SalesforceStreamer
     def setup_options
       @parser = OptionParser.new do |o|
         o.on "-C", "--config PATH", "Load PATH as a config file" do |arg|
-          @config.load_push_topic_data arg
-          @push_topics_loaded = true
+          @config.config_file = arg
         end
 
         o.on "-e", "--environment ENVIRONMENT",
@@ -47,7 +45,7 @@ module SalesforceStreamer
         end
 
         o.on "-v", "--verbose LEVEL", "Set the log level (default no logging)" do |arg|
-          logger = Logger.new(STDOUT)
+          logger = Logger.new(STDERR)
           logger.level = arg
           @config.logger = logger
         end
