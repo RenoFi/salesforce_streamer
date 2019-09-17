@@ -5,7 +5,7 @@ RSpec.describe SalesforceStreamer::Server do
   before { allow(Restforce).to receive(:new) { client } }
 
   describe '.new' do
-    subject { described_class.new push_topics: push_topics, config: config }
+    subject { described_class.new push_topics: push_topics }
 
     context 'given push_topics: []' do
       let(:push_topics) { [] }
@@ -20,7 +20,7 @@ RSpec.describe SalesforceStreamer::Server do
 
   describe '#run' do
     let(:config) { SalesforceStreamer::Configuration.new }
-    let(:server) { described_class.new config: config, push_topics: push_topics }
+    let(:server) { described_class.new push_topics: push_topics }
 
     subject { server.run }
 
@@ -59,7 +59,7 @@ RSpec.describe SalesforceStreamer::Server do
             'event' => {
               'createdDate' => '2019-07-10T16:10:16.764Z',
               'replayId' => 50,
-              'type'=>'updated'
+              'type' => 'updated'
             },
             'sobject' => {
               'AccountId' => '0011m00000PU8LrAAL',

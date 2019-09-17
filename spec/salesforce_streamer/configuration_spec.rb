@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # frozen_string_litera: true
 
 RSpec.describe SalesforceStreamer::Configuration do
@@ -6,18 +8,20 @@ RSpec.describe SalesforceStreamer::Configuration do
 
     specify { expect(subject).to respond_to(:environment) }
     specify { expect(subject).to respond_to(:environment=) }
+    specify { expect(subject).to respond_to(:config_file) }
+    specify { expect(subject).to respond_to(:config_file=) }
     specify { expect(subject).to respond_to(:logger) }
     specify { expect(subject).to respond_to(:logger=) }
-    specify { expect(subject).to respond_to(:push_topic_data) }
     specify { expect(subject).not_to respond_to(:push_topic_data=) }
   end
 
-  describe '#load_push_topic_data' do
+  describe '#push_topic_data' do
     let(:config) { described_class.new }
-    subject { config.load_push_topic_data path }
+
+    subject { config.push_topic_data }
 
     context 'when YAML file has development key' do
-      let(:path) { './spec/fixtures/configuration/config.yml' }
+      before { config.config_file = './spec/fixtures/configuration/config.yml' }
 
       specify { expect(subject).to be_a Hash }
     end

@@ -5,12 +5,11 @@ module SalesforceStreamer
   # Streaming API server. It is responsible for upserting each PushTopic and
   # starting the server.
   class Launcher
-    def initialize(config:)
-      @config = config
-      @logger = config.logger
+    def initialize
+      @logger = Configuration.instance.logger
       load_server_configuration
-      @manager = TopicManager.new push_topics: @push_topics, config: @config
-      @server = Server.new push_topics: @push_topics, config: @config
+      @manager = TopicManager.new push_topics: @push_topics
+      @server = Server.new push_topics: @push_topics
     end
 
     # Manages each PushTopic configured and starts the Streaming API listener.
@@ -29,16 +28,16 @@ module SalesforceStreamer
     end
 
     def require_application
-      if @config.require_path
+      if Configuration.instance.require_path
         @logger.debug 'Loading the require path'
-        require @config.require_path
+        require Configuration.instance.require_path
       end
     end
 
     def initialize_push_topics
       @logger.debug 'Loading and validating PushTopics configuration'
       @push_topics = []
-      @config.push_topic_data.values.each do |topic_data|
+      Configuration.instance.push_topic_data.values.each do |topic_data|
         @logger.debug topic_data.to_s
         @push_topics << PushTopic.new(data: topic_data)
       end

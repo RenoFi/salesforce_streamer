@@ -81,7 +81,7 @@ Launch the `streamer` service, pointing it to your push topic configuration YAML
 file and the entry point to your application.
 
 ```
-$ bundle exec streamer -C config/streamer.yml -r ./lib/app -x -v INFO
+$ bundle exec streamer -x -v INFO
 I, [2019-07-09T15:19:55.862296 #78537]  INFO -- : Launching Streamer Services
 I, [2019-07-09T15:19:55.862351 #78537]  INFO -- : Running Topic Manager
 I, [2019-07-09T15:19:56.860998 #78537]  INFO -- : New PushTopic AllAccounts
@@ -111,7 +111,7 @@ variable, or default to `:development` if not set. You can override this in the
 CLI with the `-e ENV` flag.
 
 ```
-$ bundle exec streamer -C config/streamer.yml -r ./lib/app -e production
+$ bundle exec streamer -e production
 ```
 
 ## Development

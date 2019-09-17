@@ -3,22 +3,28 @@
 module SalesforceStreamer
   # Manages server configuration.
   class Configuration
-    attr_accessor :environment, :logger, :require_path
-    attr_reader :push_topic_data
-    attr_writer :manage_topics
+    attr_accessor :environment, :logger, :require_path, :config_file, :manage_topics, :server
+
+    def self.instance
+      @instance ||= new
+    end
 
     def initialize
       @environment = ENV['RACK_ENV'] || :development
       @logger = Logger.new(IO::NULL)
       @manage_topics = false
+      @config_file = './config/streamer.yml'
+      @require_path = './config/application'
     end
 
     def manage_topics?
       @manage_topics
     end
 
-    def load_push_topic_data(path)
-      data = YAML.safe_load(File.read(path), [], [], true)
+    def push_topic_data
+      return @push_topic_data if @push_topic_data
+
+      data = YAML.safe_load(File.read(config_file), [], [], true)
       @push_topic_data = data[environment.to_s]
     end
 

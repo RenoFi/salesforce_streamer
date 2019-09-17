@@ -10,7 +10,6 @@ module CoreExtensions
     module CookieValidation
       def self.extended(base)
         base.class_eval do
-
           def self.domains_match(tested_domain, base_domain)
             return true if tested_domain[-15..-1].eql?('.salesforce.com')
 
@@ -21,7 +20,6 @@ module CoreExtensions
               domain == tested_domain
             end
           end
-
         end
       end
     end

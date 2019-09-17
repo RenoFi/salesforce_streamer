@@ -2,12 +2,13 @@
 
 RSpec.describe SalesforceStreamer::TopicManager do
   let(:client) { double(find_push_topic_by_name: {}, upsert_push_topic: true) }
-  let(:config) { SalesforceStreamer::Configuration.new }
+  let(:config) { SalesforceStreamer::Configuration.instance }
 
+  before { SalesforceStreamer::Configuration.instance.require_path = nil }
   before { allow(SalesforceStreamer::SalesforceClient).to receive(:new) { client } }
 
   describe '.new' do
-    subject { described_class.new push_topics: push_topics, config: config }
+    subject { described_class.new push_topics: push_topics }
 
     context 'when push_topics is []' do
       let(:push_topics) { [] }
@@ -17,7 +18,7 @@ RSpec.describe SalesforceStreamer::TopicManager do
   end
 
   describe '#run' do
-    let(:manager) { described_class.new push_topics: push_topics, config: config }
+    let(:manager) { described_class.new push_topics: push_topics }
 
     subject { manager.run }
 

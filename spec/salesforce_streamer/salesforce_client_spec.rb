@@ -27,7 +27,7 @@ RSpec.describe SalesforceStreamer::SalesforceClient do
     context 'given handler name and replay option' do
       let(:handler_name) { 'TestHandlerClass' }
       let(:options) { { replay: -1 } }
-      let(:block) { Proc.new { 'yield content' } }
+      let(:block) { proc { 'yield content' } }
 
       specify { expect(subject).to eq 'yield content' }
     end

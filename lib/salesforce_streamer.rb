@@ -43,14 +43,17 @@ require 'core_extensions/cookiejar/cookie_validation'
 #
 # Turn on verbose logging for troubleshooting. The -r flag will activate the
 # Restforce logger, so this is not recommended for production. The -v flag
-# activates a Logger to STDOUT with DEBUG level by default. Set the log level
+# activates a Logger to STDERR with DEBUG level by default. Set the log level
 # with the -v flag.
 #
-#     bundle exec streamer -C config/streamer.yml -r
+#     bundle exec streamer
 #     bundle exec streamer -C config/streamer.yml -v
 #     bundle exec streamer -C config/streamer.yml -v INFO
 #     bundle exec streamer -C config/streamer.yml -r -v
 #     bundle exec streamer -C config/streamer.yml -r -v INFO
 #
 module SalesforceStreamer
+  def self.config
+    Configuration.instance
+  end
 end
