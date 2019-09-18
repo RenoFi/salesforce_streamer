@@ -52,33 +52,6 @@ RSpec.describe SalesforceStreamer::Server do
           .with(push_topics[0].name, replay: push_topics[0].replay)
         subject
       end
-
-      context 'when subscriber receives a message' do
-        it 'passes the message to handler_constant.call' do
-          message = {
-            'event' => {
-              'createdDate' => '2019-07-10T16:10:16.764Z',
-              'replayId' => 50,
-              'type' => 'updated'
-            },
-            'sobject' => {
-              'AccountId' => '0011m00000PU8LrAAL',
-              'Id' => '0061m00000E8fSRAAZ'
-            }
-          }
-          allow(client).to receive(:subscribe).and_yield(message)
-          expect(push_topics[0].handler_constant).to receive(:call).with(message)
-          subject
-        end
-      end
-
-      context 'when subscriber receives a message that raises an exception' do
-        it 'SalesforceStreamer::Configuration.instance.exception_adapter receives .call' do
-          allow(client).to receive(:subscribe).and_yield([])
-          expect(SalesforceStreamer::Configuration.instance.exception_adapter).to receive(:call).with(instance_of(TypeError))
-          subject
-        end
-      end
     end
   end
 end

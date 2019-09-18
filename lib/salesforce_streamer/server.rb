@@ -32,13 +32,7 @@ module SalesforceStreamer
       EM.run do
         @push_topics.map do |topic|
           @client.subscribe topic.name, replay: topic.replay.to_i do |msg|
-            begin
-              @logger.debug(msg)
-              topic.handler_constant.call(msg)
-              @logger.info("Message processed: channel=#{topic.name} replayId=#{msg.dig('event', 'replayId')}")
-            rescue StandardError => e
-              Configuration.instance.exception_adapter.call e
-            end
+            MessageReceiver.call topic.name, topic.handler_constant, msg
           end
         end
       end
