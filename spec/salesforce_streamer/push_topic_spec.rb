@@ -1,6 +1,48 @@
 # frozen_string_literal: true
 
 RSpec.describe SalesforceStreamer::PushTopic do
+  describe '#replay' do
+    let(:push_topic) { described_class.new data: data }
+
+    subject { push_topic.replay }
+
+    context 'when config.persistence_adapter is nil' do
+      let(:data) do
+        {
+          'name' => 'name',
+          'handler' => 'TestHandlerClass',
+          'salesforce' => { 'query' => '', 'name' => 'sfname' }
+        }
+      end
+
+      before { SalesforceStreamer.config.persistence_adapter = nil }
+
+      specify { expect(subject).to eq(-1) }
+
+      context 'when push_topic initialized with replay 100' do
+        let(:data) do
+          {
+            'name' => 'name',
+            'handler' => 'TestHandlerClass',
+            'replay' => 100,
+            'salesforce' => { 'query' => '', 'name' => 'sfname' }
+          }
+        end
+
+        specify { expect(subject).to eq(100) }
+      end
+
+      context 'when config.persistence_adapter retrieves 150' do
+        before do
+          mock = double(retrieve: 150)
+          allow(SalesforceStreamer.config).to receive(:persistence_adapter) { mock }
+        end
+
+        specify { expect(subject).to eq 150 }
+      end
+    end
+  end
+
   describe '.new' do
     subject { described_class.new data: data }
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Mock a Redis implementation so that specs do not depend on an actual Redis
 # instance up and running
 class MockRedis
@@ -15,6 +17,7 @@ class MockRedis
 
   def zrevrange(key, start, stop, _options = {})
     return nil unless hash[key]
+
     hash[key].to_a.reverse[start..stop]
   end
 
