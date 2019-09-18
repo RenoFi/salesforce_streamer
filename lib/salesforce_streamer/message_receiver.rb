@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SalesforceStreamer
   class MessageReceiver
     class << self
@@ -6,6 +8,7 @@ module SalesforceStreamer
       # @param message [Hash] The event payload
       def call(topic, handler, message)
         handler.call message
+        ReplayPersistence.record topic, message.dig('event', 'replayId')
       rescue StandardError => e
         Configuration.instance.exception_adapter.call e
       end
