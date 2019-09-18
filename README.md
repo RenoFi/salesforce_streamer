@@ -45,6 +45,12 @@ base: &DEFAULT
 
 development:
   <<: *DEFAULT
+
+test:
+  <<: *DEFAULT
+
+production:
+  <<: *DEFAULT
 ```
 
 It's important to note that the way push topics are managed is by the Salesforce
@@ -75,29 +81,31 @@ Set your Restforce ENV variables in order to establish a connection. See the
 Restforce API documentation for more details. Then start the server using the
 command line interface.
 
+Configure the `SalesforceStreamer` module.
+
+```ruby
+# config/initializers/salesforce_streamer.rb
+
+require 'redis'
+require 'connection_pool'
+
+SalesforceStreamer.config.redis_connection = ConnectionPool.new(size: 5, timeout: 5) { Redis.new }
+SalesforceStreamer.config.logger = Logger.new(STDERR, level: 'INFO')
+SalesforceStreamer.config.exception_adapter = proc { |e| puts e }
+SalesforceStreamer.config.manage_topics = true
+```
+
 ### Launch The Streamer
 
-Launch the `streamer` service, pointing it to your push topic configuration YAML
-file and the entry point to your application.
+Launch the `streamer` service loads the application code at
+`./config/application` by default if `config.require_path` is unset. It will
+load your push topic configuration from `./config/streamer.yml` if
+`config.config_file` is unset. During the boot sequence it will connect to
+Salesforce using the Restforce client and your configured ENV variables in order
+to upsert push topic definitions.
 
 ```
-$ bundle exec streamer -x -v INFO
-I, [2019-07-09T15:19:55.862296 #78537]  INFO -- : Launching Streamer Services
-I, [2019-07-09T15:19:55.862351 #78537]  INFO -- : Running Topic Manager
-I, [2019-07-09T15:19:56.860998 #78537]  INFO -- : New PushTopic AllAccounts
-I, [2019-07-09T15:19:56.861079 #78537]  INFO -- : Upsert PushTopic AllAccounts
-I, [2019-07-09T15:19:57.591241 #78537]  INFO -- : Starting Server
-```
-
-For very verbose logs, also use the `--verbose-restforce` flag to activate the
-Restforce client logger - not recommended for production.
-
-You can start up the server without syncing the push topic configuration if you
-know the topics are already configured appropriately. Remove the `-x` flag from
-the CLI to skip the topic management component.
-
-```
-$ bundle exec streamer -C config/streamer.yml -r ./lib/app -v INFO
+$ bundle exec streamer
 I, [2019-07-08T22:16:34.104271 #26973]  INFO -- : Launching Streamer Services
 I, [2019-07-09T15:19:55.862351 #78537]  INFO -- : Running Topic Manager
 I, [2019-07-09T15:19:56.860998 #78537]  INFO -- : New PushTopic AllAccounts
@@ -106,13 +114,22 @@ I, [2019-07-09T15:19:56.861109 #78537]  INFO -- : Skipping upsert because manage
 I, [2019-07-08T22:16:34.794933 #26973]  INFO -- : Starting Server
 ```
 
-By default, the CLI will load the YAML based on the `RACK_ENV` environment
-variable, or default to `:development` if not set. You can override this in the
-CLI with the `-e ENV` flag.
+By default, the server will start up without syncing the push topic configuration.
+Set the configuration option `config.manage_topics = true` will tell the server
+launcher to update the configuration of the push topic in Salesforce.
 
 ```
-$ bundle exec streamer -e production
+$ bundle exec streamer
+I, [2019-07-09T15:19:55.862296 #78537]  INFO -- : Launching Streamer Services
+I, [2019-07-09T15:19:55.862351 #78537]  INFO -- : Running Topic Manager
+I, [2019-07-09T15:19:56.860998 #78537]  INFO -- : New PushTopic AllAccounts
+I, [2019-07-09T15:19:56.861079 #78537]  INFO -- : Upsert PushTopic AllAccounts
+I, [2019-07-09T15:19:57.591241 #78537]  INFO -- : Starting Server
 ```
+
+By default, the executable will load the YAML based on the `RACK_ENV` environment
+variable, or default to `:development` if not set. You can override this by
+setting the `config.environment = :integration`
 
 ## Development
 
