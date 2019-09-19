@@ -59,4 +59,10 @@ module SalesforceStreamer
   def self.config
     Configuration.instance
   end
+
+  class RedisConnectionError < StandardError
+    def initialize
+      super 'SalesforceStreamer.config.redis_connection not set'
+    end
+  end
 end

@@ -19,7 +19,9 @@ module SalesforceStreamer
     end
 
     def replay
-      @replay ||= Configuration.instance.persistence_adapter&.retrieve(name) || @static_replay
+      @replay ||= (ReplayPersistence.retrieve(name) || @static_replay).tap do |replayId|
+        Configuration.instance.logger.info ['PushTopic name=', name, ' starting at replayId=', replayId].join
+      end
     end
 
     def to_s
