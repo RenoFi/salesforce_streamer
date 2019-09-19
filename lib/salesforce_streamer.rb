@@ -11,6 +11,9 @@ require 'salesforce_streamer/errors'
 require 'salesforce_streamer/push_topic'
 require 'salesforce_streamer/topic_manager'
 require 'salesforce_streamer/salesforce_client'
+require 'salesforce_streamer/replay_persistence'
+require 'salesforce_streamer/redis_replay'
+require 'salesforce_streamer/message_receiver'
 require 'salesforce_streamer/server'
 require 'salesforce_streamer/version'
 require 'salesforce_streamer/launcher'
@@ -55,5 +58,11 @@ require 'core_extensions/cookiejar/cookie_validation'
 module SalesforceStreamer
   def self.config
     Configuration.instance
+  end
+
+  class RedisConnectionError < StandardError
+    def initialize
+      super 'SalesforceStreamer.config.redis_connection not set'
+    end
   end
 end

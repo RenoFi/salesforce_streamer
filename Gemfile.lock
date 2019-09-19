@@ -1,15 +1,15 @@
 PATH
   remote: .
   specs:
-    salesforce_streamer (0.1.1)
+    salesforce_streamer (0.2.0)
       faye (~> 0.8.9)
       restforce (~> 3.1.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.6.0)
-      public_suffix (>= 2.0.2, < 4.0)
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
     byebug (11.0.1)
     codecov (0.1.14)
       json
@@ -45,7 +45,7 @@ GEM
     http_parser.rb (0.6.0)
     json (2.2.0)
     multipart-post (2.1.1)
-    public_suffix (3.1.1)
+    public_suffix (4.0.1)
     rack (2.0.7)
     rake (10.5.0)
     restforce (3.1.0)

@@ -12,6 +12,7 @@ if ENV['CI'] == 'true'
 end
 
 require 'salesforce_streamer'
+require './spec/support/mock_redis'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -22,6 +23,12 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.before(:each) do
+    SalesforceStreamer::Configuration.instance = SalesforceStreamer::Configuration.new
+    SalesforceStreamer::Configuration.instance.redis_connection = MockRedis.new
+    SalesforceStreamer::RedisReplay.redis_connection = nil
   end
 end
 
