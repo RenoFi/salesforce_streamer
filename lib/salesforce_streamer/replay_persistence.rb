@@ -6,13 +6,13 @@ module SalesforceStreamer
   class ReplayPersistence
     class << self
       def record(key, value)
-        Configuration.instance.logger.debug ['Recording ', key, '=', value].join
+        Log.debug { "Recording #{key}=value" }
         Configuration.instance.persistence_adapter&.record key, value
       end
 
       def retrieve(key)
         Configuration.instance.persistence_adapter&.retrieve(key).tap do |v|
-          Configuration.instance.logger.debug ['Retrieved for ', key, ' ', v || 'nil'].join
+        Log.debug { "Retrieved for #{key} #{ v || 'nil' }" }
         end
       end
     end
