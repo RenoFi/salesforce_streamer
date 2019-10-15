@@ -6,7 +6,7 @@ module SalesforceStreamer
       def_delegators :instance, :debug, :info, :warn, :error, :critical
 
       def instance
-        @instance ||= Configuration.instance.logger
+        Configuration.instance.logger
       end
     end
   end
