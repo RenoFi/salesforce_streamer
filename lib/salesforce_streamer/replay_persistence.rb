@@ -6,7 +6,7 @@ module SalesforceStreamer
   class ReplayPersistence
     class << self
       def record(key, value)
-        Log.debug { "Recording #{key}=value" }
+        Log.debug { "Recording #{key}=#{value}" }
         Configuration.instance.persistence_adapter&.record key, value
       end
 
