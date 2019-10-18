@@ -15,7 +15,7 @@ RSpec.describe SalesforceStreamer::ReplayPersistence do
       let(:key) { 'key' }
       let(:value) { '123' }
 
-      specify { expect(subject).to eq 1 }
+      specify { expect(subject).to eq 'OK' }
     end
   end
 
@@ -33,7 +33,7 @@ RSpec.describe SalesforceStreamer::ReplayPersistence do
 
       before { [3, 16, 8].each { |value| described_class.record key, value } }
 
-      specify { expect(subject).to eq 16 }
+      specify { expect(subject).to eq 8 }
     end
   end
 end

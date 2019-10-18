@@ -3,12 +3,22 @@
 # Mock a Redis implementation so that specs do not depend on an actual Redis
 # instance up and running
 class MockRedis
+  def setex(key, seconds, value)
+    hash[key] = value
+    'OK'
+  end
+
+  # does not consider the expired seconds
+  def get(key)
+    hash[key]
+  end
+
   def zadd(key, *args)
     if args.size == 1 && args[0].is_a?(Array)
-      hash[key] << args.map(&:last)
+      sorted_set[key] << args.map(&:last)
       args[0].size
     elsif args.size == 2
-      hash[key] << args[1]
+      sorted_set[key] << args[1]
       1
     else
       raise 'MockRedis.zadd wrong number of arguments'
@@ -16,14 +26,18 @@ class MockRedis
   end
 
   def zrevrange(key, start, stop, _options = {})
-    return nil unless hash[key]
+    return nil unless sorted_set[key]
 
-    hash[key].to_a.reverse[start..stop]
+    sorted_set[key].to_a.reverse[start..stop]
   end
 
   private
 
+  def sorted_set
+    @sorted_set ||= Hash.new { |hash, key| hash[key] = SortedSet.new }
+  end
+
   def hash
-    @hash ||= Hash.new { |hash, key| hash[key] = SortedSet.new }
+    @hash ||= Hash.new
   end
 end
