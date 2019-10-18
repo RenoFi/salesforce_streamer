@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     salesforce_streamer (0.2.2)
-      faye (~> 0.8.9)
+      faye (= 0.8.9)
       restforce (~> 3.1.0)
 
 GEM
@@ -31,7 +31,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.13.1)
       faraday (>= 0.7.4, < 1.0)
-    faye (0.8.11)
+    faye (0.8.9)
       cookiejar (>= 0.3.0)
       em-http-request (>= 0.3.0)
       eventmachine (>= 0.12.0)
