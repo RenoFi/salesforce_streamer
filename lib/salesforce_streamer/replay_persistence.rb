@@ -12,7 +12,7 @@ module SalesforceStreamer
 
       def retrieve(key)
         Configuration.instance.persistence_adapter&.retrieve(key).tap do |v|
-        Log.debug { "Retrieved for #{key} #{ v || 'nil' }" }
+          Log.debug { "Retrieved for #{key} #{v || 'nil'}" }
         end
       end
     end
