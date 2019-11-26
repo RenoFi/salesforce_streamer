@@ -6,11 +6,9 @@ module SalesforceStreamer
 
     def initialize(push_topics: [])
       @push_topics = push_topics
-      @client = Restforce.new
     end
 
     def run
-      @client.authenticate!
       Log.info 'Starting Server'
       catch_signals
       start_em
@@ -31,9 +29,15 @@ module SalesforceStreamer
       end
     end
 
+    def client
+      Restforce.new.tap do |r|
+        r.authenticate!
+      end
+    end
+
     def start_em
       EM.run do
-        @client.subscribe push_topic_names, replay: topic.replay.to_i do |msg|
+        client.subscribe push_topic_names, replay: topic.replay.to_i do |msg|
           Log.info "Message received from topic #{topic.name}"
           MessageReceiver.call topic.name, topic.handler_constant, msg
         end
