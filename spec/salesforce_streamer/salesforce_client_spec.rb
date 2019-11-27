@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 RSpec.describe SalesforceStreamer::SalesforceClient do
   let(:client) { described_class.new }
   let(:restforce) do

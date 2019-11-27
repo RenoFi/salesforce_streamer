@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module SalesforceStreamer
   # Manages server configuration.
   class Configuration
@@ -16,7 +14,7 @@ module SalesforceStreamer
     def initialize
       @environment = ENV['RACK_ENV'] || :development
       @logger = Logger.new(IO::NULL)
-      @exception_adapter = proc { |exc| raise exc }
+      @exception_adapter = proc { |exc| fail(exc) }
       @persistence_adapter = RedisReplay.new
       @manage_topics = false
       @config_file = './config/streamer.yml'

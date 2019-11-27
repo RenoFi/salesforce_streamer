@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 RSpec.describe SalesforceStreamer::Launcher do
   let(:server) { double(run: true, 'push_topics=' => true) }
   let(:manager) { double(run: true, push_topics: []) }

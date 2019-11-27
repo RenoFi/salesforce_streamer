@@ -1,11 +1,9 @@
-# frozen_string_literal: true
-
 module SalesforceStreamer
   # Models the PushTopic object for both Restforce and Streamer
   class PushTopic
     attr_accessor :id
     attr_reader :name, :description, :notify_for_fields, :query,
-                :handler, :handler_constant, :api_version
+      :handler, :handler_constant, :api_version
 
     def initialize(data:)
       @handler           = data['handler']
@@ -19,8 +17,8 @@ module SalesforceStreamer
     end
 
     def replay
-      @replay ||= (ReplayPersistence.retrieve(name) || @static_replay).tap do |replayId|
-        Log.info "PushTopic name=#{name} starting at replayId=#{replayId}"
+      @replay ||= (ReplayPersistence.retrieve(name) || @static_replay).tap do |replay_id|
+        Log.info "PushTopic name=#{name} starting at replayId=#{replay_id}"
       end
     end
 
@@ -33,7 +31,7 @@ module SalesforceStreamer
     private
 
     def validate!
-      raise(PushTopicNameTooLongError, @name) if @name.size > 25
+      fail(PushTopicNameTooLongError, @name) if @name.size > 25
 
       @handler_constant = Object.const_get(@handler)
       true
@@ -43,7 +41,7 @@ module SalesforceStreamer
     end
 
     def strip_spaces(str)
-      raise(NilQueryError, @name) unless str
+      fail(NilQueryError, @name) unless str
 
       str.gsub(/\s+/, ' ')
     end

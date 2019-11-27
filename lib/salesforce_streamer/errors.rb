@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module SalesforceStreamer
   class MissingCLIFlagError < StandardError
     def initialize(flag)
