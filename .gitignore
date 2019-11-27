@@ -1,5 +1,4 @@
 /.bundle/
-/.byebug_history
 /.yardoc
 /_yardoc/
 /coverage/
@@ -10,4 +9,7 @@
 
 # rspec failure tracking
 .rspec_status
-.env
+
+# Cached rubocop config files
+.rubocop-http*
+vidar.yml

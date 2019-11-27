@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 RSpec.describe SalesforceStreamer::PushTopic do
   describe '#replay' do
     let(:push_topic) { described_class.new data: data }
@@ -92,7 +90,7 @@ RSpec.describe SalesforceStreamer::PushTopic do
       end
 
       describe '#replay' do
-        specify { expect(subject.replay).to eq -2 }
+        specify { expect(subject.replay).to eq(-2) }
       end
     end
 
@@ -124,7 +122,7 @@ RSpec.describe SalesforceStreamer::PushTopic do
       end
 
       describe '#replay' do
-        specify { expect(subject.replay).to eq -1 }
+        specify { expect(subject.replay).to eq(-1) }
       end
     end
   end

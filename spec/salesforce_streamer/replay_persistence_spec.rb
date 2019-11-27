@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 RSpec.describe SalesforceStreamer::ReplayPersistence do
   describe '.record' do
     subject { described_class.record key, value }

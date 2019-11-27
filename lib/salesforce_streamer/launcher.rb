@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module SalesforceStreamer
   # SalesforceStreamer::Launcher is the entry point for starting the Restforce
   # Streaming API server. It is responsible for upserting each PushTopic and
@@ -27,10 +25,10 @@ module SalesforceStreamer
     end
 
     def require_application
-      if Configuration.instance.require_path
-        Log.debug 'Loading the require path'
-        require Configuration.instance.require_path
-      end
+      return unless Configuration.instance.require_path
+
+      Log.debug 'Loading the require path'
+      require Configuration.instance.require_path
     end
 
     def initialize_push_topics

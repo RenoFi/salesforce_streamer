@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 RSpec.describe SalesforceStreamer::MessageReceiver do
   describe '.call' do
     subject { described_class.call(topic, handler, message) }

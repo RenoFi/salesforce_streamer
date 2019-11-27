@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 RSpec.describe SalesforceStreamer::Server do
   let(:client) { double(authenticate!: true, subscribe: true) }
   before { allow(Restforce).to receive(:new) { client } }

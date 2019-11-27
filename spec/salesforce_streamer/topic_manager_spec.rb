@@ -1,5 +1,3 @@
-# frozen_string_literal: string
-
 RSpec.describe SalesforceStreamer::TopicManager do
   let(:client) { double(find_push_topic_by_name: {}, upsert_push_topic: true) }
   let(:config) { SalesforceStreamer::Configuration.instance }

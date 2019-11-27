@@ -1,0 +1,8 @@
+require:
+  - rubocop-performance
+
+inherit_from:
+  - https://raw.githubusercontent.com/RenoFi/rubocop/master/ruby.yml
+
+AllCops:
+  TargetRubyVersion: 2.6

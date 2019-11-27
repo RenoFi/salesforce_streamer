@@ -1,9 +1,7 @@
-# frozen_string_literal: true
-
 # Mock a Redis implementation so that specs do not depend on an actual Redis
 # instance up and running
 class MockRedis
-  def setex(key, seconds, value)
+  def setex(key, _seconds, value)
     hash[key] = value
     'OK'
   end
@@ -21,7 +19,7 @@ class MockRedis
       sorted_set[key] << args[1]
       1
     else
-      raise 'MockRedis.zadd wrong number of arguments'
+      fail 'MockRedis.zadd wrong number of arguments'
     end
   end
 
@@ -34,10 +32,10 @@ class MockRedis
   private
 
   def sorted_set
-    @sorted_set ||= Hash.new { |hash, key| hash[key] = SortedSet.new }
+    @sorted_set ||= { key => SortedSet.new }
   end
 
   def hash
-    @hash ||= Hash.new
+    @hash ||= {}
   end
 end

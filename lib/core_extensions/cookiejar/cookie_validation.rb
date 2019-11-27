@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Original source code at
 # https://github.com/dwaite/cookiejar/blob/master/lib/cookiejar/cookie_validation.rb
 # Re-opening the CookieValidation module to rewrite the domains_match method to

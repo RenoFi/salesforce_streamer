@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module SalesforceStreamer
   class CLI
     def initialize(argv)
@@ -21,8 +19,7 @@ module SalesforceStreamer
           @config.config_file = arg
         end
 
-        o.on '-e', '--environment ENVIRONMENT',
-             'The environment to run the app on (default development)' do |arg|
+        o.on '-e', '--environment ENVIRONMENT', 'The environment to run the app on (default development)' do |arg|
           @config.environment = arg
         end
 

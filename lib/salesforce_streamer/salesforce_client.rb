@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module SalesforceStreamer
   class SalesforceClient
     def initialize(client: Restforce.new)
@@ -24,16 +22,16 @@ module SalesforceStreamer
 
     # Returns true or raises an exception if the upsert fails
     def upsert_push_topic(push_topic)
-      @client.upsert!('PushTopic', :Id,
-                      'Id' => push_topic.id,
-                      'Name' => push_topic.name,
-                      'ApiVersion' => push_topic.api_version,
-                      'Description' => push_topic.description,
-                      'NotifyForFields' => push_topic.notify_for_fields,
-                      'Query' => push_topic.query)
+      @client.upsert!(
+        'PushTopic', :Id,
+        'Id' => push_topic.id,
+        'Name' => push_topic.name,
+        'ApiVersion' => push_topic.api_version,
+        'Description' => push_topic.description,
+        'NotifyForFields' => push_topic.notify_for_fields,
+        'Query' => push_topic.query
+      )
     end
-
-    private
 
     QUERY = <<~SOQL.chomp.freeze
       SELECT Id, Name, ApiVersion, Description, NotifyForFields, Query, isActive

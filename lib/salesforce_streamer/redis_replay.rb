@@ -1,10 +1,8 @@
-# frozen_string_literal: true
-
 module SalesforceStreamer
   class RedisReplay
     class << self
       def redis_connection
-        @redis_connection ||= Configuration.instance.redis_connection || raise(RedisConnectionError)
+        @redis_connection ||= Configuration.instance.redis_connection || fail(RedisConnectionError)
       end
 
       attr_writer :redis_connection
@@ -27,7 +25,7 @@ module SalesforceStreamer
       key = namespaced_key(key)
       value = Integer(value)
       connection { |c| c.setex key, SECONDS_TO_EXPIRE, value }
-    rescue StandardError, TypeError => e
+    rescue StandardError => e
       Configuration.instance.exception_adapter.call e
       nil
     end
@@ -49,7 +47,7 @@ module SalesforceStreamer
       NAMESPACE + key.to_s
     end
 
-    NAMESPACE = 'SalesforceStreamer:'
+    NAMESPACE = 'SalesforceStreamer:'.freeze
     SECONDS_TO_EXPIRE = 24 * 60 * 60 # 24 hours
     START = 0
     STOP = 0
