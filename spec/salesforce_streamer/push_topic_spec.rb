@@ -4,6 +4,28 @@ RSpec.describe SalesforceStreamer::PushTopic do
 
     subject { push_topic.replay }
 
+    context 'when ReplayPersistence records a change' do
+      let(:data) do
+        {
+          'name' => 'name',
+          'handler' => 'TestHandlerClass',
+          'salesforce' => { 'query' => '', 'name' => 'sfname' }
+        }
+      end
+
+      before do
+        obj = Object.new
+        obj.define_singleton_method(:retrieve) do |_key|
+          SecureRandom.uuid # simulate a difference in value returned from persistence
+        end
+        SalesforceStreamer.config.persistence_adapter = obj
+      end
+
+      it 'the returned value is not memoize' do
+        expect(push_topic.replay).to_not eq push_topic.replay
+      end
+    end
+
     context 'when config.persistence_adapter is nil' do
       let(:data) do
         {
