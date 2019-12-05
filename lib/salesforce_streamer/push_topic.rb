@@ -17,9 +17,7 @@ module SalesforceStreamer
     end
 
     def replay
-      @replay ||= (ReplayPersistence.retrieve(name) || @static_replay).tap do |replay_id|
-        Log.info "PushTopic name=#{name} starting at replayId=#{replay_id}"
-      end
+      ReplayPersistence.retrieve(name) || @static_replay
     end
 
     def to_s
