@@ -1,5 +1,5 @@
 RSpec.describe SalesforceStreamer::Server do
-  let(:client) { double(authenticate!: true, subscribe: true) }
+  let(:client) { double(authenticate!: true, subscribe: true, faye: double(add_extension: nil)) }
   before { allow(Restforce).to receive(:new) { client } }
 
   describe '.new' do
