@@ -1,4 +1,6 @@
 module SalesforceStreamer
+  ReplayIdError = Class.new(StandardError)
+
   class MissingCLIFlagError < StandardError
     def initialize(flag)
       super 'Missing required command line flag: ' + flag.to_s

@@ -24,7 +24,11 @@ module SalesforceStreamer
     end
 
     def client
-      Restforce.new.tap(&:authenticate!)
+      return @client if @client
+      @client = Restforce.new
+      @client.authenticate!
+      @client.faye.add_extension ReplayIdErrorExtension.new
+      @client
     end
 
     def start_em

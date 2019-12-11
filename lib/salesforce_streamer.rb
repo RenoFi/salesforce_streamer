@@ -7,6 +7,7 @@ require 'forwardable'
 
 require 'salesforce_streamer/configuration'
 require 'salesforce_streamer/errors'
+require 'salesforce_streamer/replay_id_error_extension'
 require 'salesforce_streamer/log'
 require 'salesforce_streamer/push_topic'
 require 'salesforce_streamer/topic_manager'
