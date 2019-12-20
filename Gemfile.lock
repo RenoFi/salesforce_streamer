@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    salesforce_streamer (0.5.0)
+    salesforce_streamer (1.0.0)
       faye (= 0.8.9)
       restforce (~> 4.2)
 
