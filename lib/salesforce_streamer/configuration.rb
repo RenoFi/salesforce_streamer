@@ -18,7 +18,7 @@ module SalesforceStreamer
       @persistence_adapter = RedisReplay.new
       @manage_topics = false
       @config_file = './config/streamer.yml'
-      @require_path = './config/application'
+      @require_path = './config/environment'
     end
 
     def manage_topics?

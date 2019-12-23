@@ -98,7 +98,7 @@ SalesforceStreamer.config.manage_topics = true
 ### Launch The Streamer
 
 Launch the `streamer` service loads the application code at
-`./config/application` by default if `config.require_path` is unset. It will
+`./config/environment` by default if `config.require_path` is unset. It will
 load your push topic configuration from `./config/streamer.yml` if
 `config.config_file` is unset. During the boot sequence it will connect to
 Salesforce using the Restforce client and your configured ENV variables in order
