@@ -63,13 +63,22 @@ push topic in Salesforce before starting the streaming server.
 
 ### Define Message Handlers
 
-Define your handlers somewhere in your project. They must respond to
-`.call(str)`.
+Define your handlers somewhere in your project. They must respond to either
+`.perform_async(str)` or `.call(str)`.
 
 ```ruby
 # lib/account_change_handler.rb
+# Handle account changes inline
 class AccountChangeHandler
   def self.call(message)
+    puts message
+  end
+end
+
+# Handle account changes asynchronously
+class AccountChangeHandler
+  include Sidekiq::Worker
+  def perform(message)
     puts message
   end
 end
