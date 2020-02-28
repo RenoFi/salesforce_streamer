@@ -1,5 +1,11 @@
 RSpec.describe SalesforceStreamer::Server do
-  let(:client) { double(authenticate!: true, subscribe: true, faye: double(add_extension: nil)) }
+  let(:client) do
+    instance_double(Restforce::Data::Client,
+      authenticate!: true,
+      subscribe: true,
+      faye: instance_double(Faye::Client, add_extension: nil))
+  end
+
   before { allow(Restforce).to receive(:new) { client } }
 
   describe '.new' do
@@ -17,10 +23,10 @@ RSpec.describe SalesforceStreamer::Server do
   end
 
   describe '#run' do
+    subject { server.run }
+
     let(:config) { SalesforceStreamer::Configuration.new }
     let(:server) { described_class.new push_topics: push_topics }
-
-    subject { server.run }
 
     before { allow(EM).to receive(:run).and_yield }
 
@@ -28,7 +34,7 @@ RSpec.describe SalesforceStreamer::Server do
       let(:push_topics) { [] }
 
       it 'no handlers subscribe' do
-        expect(client).to_not receive(:subscribe)
+        expect(client).not_to receive(:subscribe)
         subject
       end
     end

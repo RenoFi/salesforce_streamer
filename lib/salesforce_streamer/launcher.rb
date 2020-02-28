@@ -34,7 +34,7 @@ module SalesforceStreamer
     def initialize_push_topics
       Log.debug 'Loading and validating PushTopics configuration'
       @push_topics = []
-      Configuration.instance.push_topic_data.values.each do |topic_data|
+      Configuration.instance.push_topic_data.each_value do |topic_data|
         Log.debug topic_data.to_s
         @push_topics << PushTopic.new(data: topic_data)
       end

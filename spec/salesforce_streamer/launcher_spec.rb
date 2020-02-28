@@ -1,13 +1,13 @@
 RSpec.describe SalesforceStreamer::Launcher do
-  let(:server) { double(run: true, 'push_topics=' => true) }
-  let(:manager) { double(run: true, push_topics: []) }
+  let(:server) { instance_double(SalesforceStreamer::Server, run: true, 'push_topics=' => true) }
+  let(:manager) { instance_double(SalesforceStreamer::TopicManager, run: true, push_topics: []) }
 
   before do
     allow(SalesforceStreamer::Server).to receive(:new) { server }
     allow(SalesforceStreamer::TopicManager).to receive(:new) { manager }
   end
 
-  context 'loading push topics from :test' do
+  context 'when loading push topics from :test' do
     let(:path) { './spec/fixtures/configuration/config.yml' }
     let(:config) { SalesforceStreamer::Configuration.instance }
 
@@ -31,9 +31,9 @@ RSpec.describe SalesforceStreamer::Launcher do
     end
 
     describe '#run' do
-      let(:launcher) { described_class.new }
-
       subject { launcher.run }
+
+      let(:launcher) { described_class.new }
 
       it 'calls TopicManager#run' do
         expect(manager).to receive :run

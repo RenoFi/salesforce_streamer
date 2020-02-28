@@ -1,9 +1,15 @@
 RSpec.describe SalesforceStreamer::TopicManager do
-  let(:client) { double(find_push_topic_by_name: {}, upsert_push_topic: true) }
+  let(:client) do
+    instance_double(SalesforceStreamer::SalesforceClient,
+      find_push_topic_by_name: {},
+      upsert_push_topic: true)
+  end
   let(:config) { SalesforceStreamer::Configuration.instance }
 
-  before { SalesforceStreamer::Configuration.instance.require_path = nil }
-  before { allow(SalesforceStreamer::SalesforceClient).to receive(:new) { client } }
+  before do
+    SalesforceStreamer::Configuration.instance.require_path = nil
+    allow(SalesforceStreamer::SalesforceClient).to receive(:new) { client }
+  end
 
   describe '.new' do
     subject { described_class.new push_topics: push_topics }
@@ -16,9 +22,9 @@ RSpec.describe SalesforceStreamer::TopicManager do
   end
 
   describe '#run' do
-    let(:manager) { described_class.new push_topics: push_topics }
-
     subject { manager.run }
+
+    let(:manager) { described_class.new push_topics: push_topics }
 
     context 'when [push_topic]' do
       let(:data) do
@@ -41,7 +47,7 @@ RSpec.describe SalesforceStreamer::TopicManager do
 
       it 'does not upsert when find_push_topic_by_name returns nil' do
         allow(client).to receive(:find_push_topic_by_name) { nil }
-        expect(client).to_not receive(:upsert_push_topic)
+        expect(client).not_to receive(:upsert_push_topic)
         subject
       end
 
@@ -65,7 +71,7 @@ RSpec.describe SalesforceStreamer::TopicManager do
           }
           response = OpenStruct.new(h)
           allow(client).to receive(:find_push_topic_by_name) { response }
-          expect(client).to_not receive(:upsert_push_topic)
+          expect(client).not_to receive(:upsert_push_topic)
           subject
         end
 

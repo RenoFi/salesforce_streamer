@@ -6,13 +6,13 @@ module SalesforceStreamer
       :handler, :handler_constant, :api_version
 
     def initialize(data:)
-      @handler           = data['handler']
-      @static_replay     = data.dig('replay')&.to_i || -1
-      @name              = data.dig('salesforce', 'name')
-      @api_version       = data.dig('salesforce', 'api_version') || '41.0'
-      @description       = data.dig('salesforce', 'description') || @name
+      @handler = data['handler']
+      @static_replay = data.dig('replay')&.to_i || -1
+      @name = data.dig('salesforce', 'name')
+      @api_version = data.dig('salesforce', 'api_version') || '41.0'
+      @description = data.dig('salesforce', 'description') || @name
       @notify_for_fields = data.dig('salesforce', 'notify_for_fields') || 'Referenced'
-      @query             = strip_spaces(data.dig('salesforce', 'query'))
+      @query = strip_spaces(data.dig('salesforce', 'query'))
       validate!
     end
 

@@ -23,7 +23,7 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  config.before(:each) do
+  config.before do
     SalesforceStreamer::Configuration.instance = SalesforceStreamer::Configuration.new
     SalesforceStreamer::Configuration.instance.redis_connection = MockRedis.new
     SalesforceStreamer::RedisReplay.redis_connection = nil

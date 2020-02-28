@@ -18,9 +18,9 @@ RSpec.describe SalesforceStreamer::Configuration do
   end
 
   describe '#push_topic_data' do
-    let(:config) { described_class.new }
-
     subject { config.push_topic_data }
+
+    let(:config) { described_class.new }
 
     context 'when YAML file has development key' do
       before { config.config_file = './spec/fixtures/configuration/config.yml' }
@@ -33,9 +33,9 @@ RSpec.describe SalesforceStreamer::Configuration do
     let(:config) { described_class.new }
 
     context 'given an Exception' do
-      let(:exception) { StandardError.new('error') }
-
       subject { config.exception_adapter.call exception }
+
+      let(:exception) { StandardError.new('error') }
 
       specify { expect { subject }.to raise_exception { exception } }
     end

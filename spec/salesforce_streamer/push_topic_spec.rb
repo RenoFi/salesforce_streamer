@@ -1,8 +1,8 @@
 RSpec.describe SalesforceStreamer::PushTopic do
   describe '#replay' do
-    let(:push_topic) { described_class.new data: data }
-
     subject { push_topic.replay }
+
+    let(:push_topic) { described_class.new data: data }
 
     context 'when ReplayPersistence records a change' do
       let(:data) do
@@ -22,7 +22,7 @@ RSpec.describe SalesforceStreamer::PushTopic do
       end
 
       it 'the returned value is not memoize' do
-        expect(push_topic.replay).to_not eq push_topic.replay
+        expect(push_topic.replay).not_to eq push_topic.replay
       end
     end
 
@@ -54,7 +54,7 @@ RSpec.describe SalesforceStreamer::PushTopic do
 
       context 'when config.persistence_adapter retrieves 150' do
         before do
-          mock = double(retrieve: 150)
+          mock = instance_double(SalesforceStreamer::RedisReplay, retrieve: 150)
           allow(SalesforceStreamer.config).to receive(:persistence_adapter) { mock }
         end
 

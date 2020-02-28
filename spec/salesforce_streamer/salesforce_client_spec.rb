@@ -1,22 +1,22 @@
 RSpec.describe SalesforceStreamer::SalesforceClient do
-  let(:client) { described_class.new }
+  let(:client) { described_class.new(client: restforce) }
   let(:restforce) do
-    double(
+    instance_double(Restforce::Data::Client,
       authenticate!: true,
       subscribe: true,
       query: [],
       upsert!: true
     )
   end
+
   before do
-    allow(Restforce).to receive(:new) { restforce }
     allow(restforce).to receive(:subscribe).and_yield
   end
 
   describe '#authenticate!' do
     subject { client.authenticate! }
 
-    specify { expect(subject).to be }
+    specify { expect(subject).to eq(true) }
   end
 
   describe '#subscribe' do
