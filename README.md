@@ -1,8 +1,9 @@
+[![Gem Version](https://badge.fury.io/rb/salesforce_streamer.svg)](https://rubygems.org/gems/salesforce_streamer)
 [![Build Status](https://travis-ci.org/RenoFi/salesforce_streamer.svg?branch=master)](https://travis-ci.org/RenoFi/salesforce_streamer)
+[![GitHub issues](https://img.shields.io/github/issues/renofi/salesforce_streamer)](https://github.com/renofi/salesforce_streamer/issues)
+[![GitHub license](https://img.shields.io/github/license/renofi/salesforce_streamer)](https://github.com/RenoFi/salesforce_streamer/blob/master/LICENSE.txt)
 
-[![codecov](https://codecov.io/gh/RenoFi/salesforce_streamer/branch/master/graph/badge.svg)](https://codecov.io/gh/RenoFi/salesforce_streamer)
-
-# SalesforceStreamer
+# salesforce_streamer
 
 A wrapper around the Restforce Streaming API to receive real time updates from
 your Salesforce instance with a built-in PushTopic manager.
@@ -153,7 +154,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/renofi
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the SalesforceStreamer project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/renofi/salesforce_streamer/blob/master/CODE_OF_CONDUCT.md).
