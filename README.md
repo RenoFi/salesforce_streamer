@@ -1,7 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/salesforce_streamer.svg)](https://rubygems.org/gems/salesforce_streamer)
 [![Build Status](https://travis-ci.org/RenoFi/salesforce_streamer.svg?branch=master)](https://travis-ci.org/RenoFi/salesforce_streamer)
-[![GitHub issues](https://img.shields.io/github/issues/renofi/salesforce_streamer)](https://github.com/renofi/salesforce_streamer/issues)
-[![GitHub license](https://img.shields.io/github/license/renofi/salesforce_streamer)](https://github.com/RenoFi/salesforce_streamer/blob/master/LICENSE.txt)
 
 # salesforce_streamer
 
