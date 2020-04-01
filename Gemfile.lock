@@ -30,7 +30,7 @@ GEM
     eventmachine (1.2.7)
     faraday (1.0.0)
       multipart-post (>= 1.2, < 3)
-    faraday_middleware (1.0.0.rc1)
+    faraday_middleware (1.0.0)
       faraday (~> 1.0)
     faye (0.8.9)
       cookiejar (>= 0.3.0)
