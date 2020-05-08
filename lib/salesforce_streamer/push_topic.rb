@@ -20,6 +20,14 @@ module SalesforceStreamer
       ReplayPersistence.retrieve(name) || @static_replay
     end
 
+    def handle(message)
+      handle_chain.call(message)
+      ReplayPersistence.record @name, message.dig('event', 'replayId')
+    rescue StandardError => e
+      Log.error e
+      Configuration.instance.exception_adapter.call e
+    end
+
     def to_s
       "PushTopic id=#{id} name=#{name} handler=#{handler} " \
         "replay=#{replay} notify_for_fields=#{notify_for_fields} " \
@@ -36,6 +44,18 @@ module SalesforceStreamer
     rescue NameError, TypeError => e
       message = 'handler=' + @handler.to_s + ' exception=' + e.to_s
       raise(PushTopicHandlerMissingError, message)
+    end
+
+    def handle_chain
+      Configuration.instance.middleware_chain_for(handler_proc)
+    end
+
+    def handler_proc
+      if handler_constant.respond_to? :perform_async
+        proc { |message| handler_constant.perform_async message }
+      else
+        handler_constant
+      end
     end
 
     def strip_spaces(str)
