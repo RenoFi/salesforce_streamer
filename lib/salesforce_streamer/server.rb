@@ -35,7 +35,7 @@ module SalesforceStreamer
       EM.run do
         @push_topics.map do |topic|
           client.subscribe topic.name, replay: topic.replay.to_i do |msg|
-            Log.info "Message received from topic #{topic.name}"
+            Log.info "Message #{topic.replay} received from topic #{topic.name}"
             MessageReceiver.call topic.name, topic.handler_constant, msg
           end
         end
