@@ -20,6 +20,26 @@ And then execute:
 
 ## Usage
 
+### Middleware
+
+You can initialize the streamer server with any number of middleware classes.
+When a message is received by a PushTopic subscription, the chain of middleware
+classes are executed before the message handler is called.
+
+```ruby
+# config/initializers/streamer.rb
+class MySimpleMiddleware
+  def initialize(handler)
+    @handler = handler
+  end
+  def call(message)
+    @handler.call(message)
+  end
+end
+
+SalesforceStreamer.config.use_middleware MySimpleMiddleware
+```
+
 ### Configure Push Topics
 
 Create a YAML file to configure your server subscriptions.  The configuration
