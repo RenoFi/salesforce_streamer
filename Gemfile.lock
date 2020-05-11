@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    salesforce_streamer (1.2.0)
+    salesforce_streamer (1.2.1)
       faye (= 0.8.9)
       restforce (~> 4.2)
 
@@ -51,7 +51,7 @@ GEM
     parallel (1.19.1)
     parser (2.7.1.2)
       ast (~> 2.4.0)
-    public_suffix (4.0.4)
+    public_suffix (4.0.5)
     rack (2.2.2)
     rainbow (3.0.0)
     rake (13.0.1)
