@@ -1,4 +1,36 @@
 RSpec.describe SalesforceStreamer::PushTopic do
+  describe '#handle' do
+    subject { topic.handle(message) }
+
+    let(:topic) do
+      described_class.new(data: {
+                            'name' => 'TestTopic',
+        'handler' => 'TestHandlerClass',
+        'salesforce' => { 'query' => '', 'name' => 'sfname' }
+                          })
+    end
+    let(:message) do
+      {
+        'event' => {
+          'createdDate' => '2019-07-10T16:10:16.764Z',
+          'replayId' => 50,
+          'type' => 'updated'
+        },
+        'sobject' => {
+          'AccountId' => '0011m00000PU8LrAAL',
+          'Id' => '0061m00000E8fSRAAZ'
+        }
+      }
+    end
+
+    specify do
+      expect(SalesforceStreamer::ReplayPersistence)
+        .to receive(:record).with('sfname', 50)
+      expect(TestHandlerClass).to receive(:call).with(message)
+      subject
+    end
+  end
+
   describe '#replay' do
     subject { push_topic.replay }
 

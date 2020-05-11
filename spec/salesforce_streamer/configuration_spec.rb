@@ -40,4 +40,81 @@ RSpec.describe SalesforceStreamer::Configuration do
       specify { expect { subject }.to raise_exception { exception } }
     end
   end
+
+  describe '#middleware' do
+    let(:config) { described_class.new }
+
+    describe '#size' do
+      specify { expect(config.middleware.size).to eq 0 }
+    end
+
+    context 'when #use_middleware' do
+      let(:middleware) { Class.new }
+
+      before do
+        config.use_middleware middleware
+      end
+
+      describe '#size' do
+        specify { expect(config.middleware.size).to eq 1 }
+      end
+    end
+  end
+
+  describe '#middleware_chain_for' do
+    subject { config.middleware_chain_for(proc {}) }
+
+    let(:config) { described_class.new }
+
+    specify { expect(subject).to respond_to :call }
+
+    context 'given some middleware' do
+      let(:middleware_with_args) do
+        Class.new do
+          def initialize(app, arg1)
+            @app = app
+            @arg1 = arg1
+          end
+
+          def call(message)
+            @app.call(message)
+            @arg1
+          end
+        end
+      end
+      let(:simple_middleware) do
+        Class.new do
+          def initialize(app)
+            @app = app
+          end
+
+          def call(message)
+            @app.call(message)
+          end
+        end
+      end
+
+      before do
+        config.use_middleware(simple_middleware)
+        config.use_middleware(middleware_with_args, 'argument1')
+      end
+
+      specify { expect(subject).to respond_to :call }
+
+      describe '#call' do
+        specify do
+          expect(simple_middleware)
+            .to receive(:new)
+            .with(Proc)
+            .and_call_original
+          expect(middleware_with_args)
+            .to receive(:new)
+            .with(Object, 'argument1')
+            .and_call_original
+
+          expect(subject.call('hello')).to eq 'argument1'
+        end
+      end
+    end
+  end
 end

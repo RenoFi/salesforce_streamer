@@ -1,7 +1,8 @@
 module SalesforceStreamer
   # Manages server configuration.
   class Configuration
-    attr_accessor :environment, :logger, :require_path, :config_file, :manage_topics, :server, :exception_adapter, :persistence_adapter, :redis_connection
+    attr_accessor :environment, :logger, :require_path, :config_file, :manage_topics,
+      :server, :exception_adapter, :persistence_adapter, :redis_connection, :middleware
 
     class << self
       attr_writer :instance
@@ -19,10 +20,19 @@ module SalesforceStreamer
       @manage_topics = false
       @config_file = './config/streamer.yml'
       @require_path = './config/environment'
+      @middleware = []
     end
 
     def manage_topics?
       @manage_topics
+    end
+
+    def use_middleware(klass, *args, &block)
+      middleware << proc { |app| klass.new(app, *args, &block) }
+    end
+
+    def middleware_chain_for(app)
+      middleware.reduce(app) { |memo, middleware| middleware.call(memo) }
     end
 
     def push_topic_data
