@@ -21,6 +21,7 @@ module SalesforceStreamer
     end
 
     def handle(message)
+      message['topic'] = @name
       handle_chain.call(message)
       ReplayPersistence.record @name, message.dig('event', 'replayId')
     rescue StandardError => e
