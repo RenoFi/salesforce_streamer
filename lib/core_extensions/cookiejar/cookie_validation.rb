@@ -9,7 +9,7 @@ module CoreExtensions
       def self.extended(base)
         base.class_eval do
           def self.domains_match(tested_domain, base_domain)
-            return true if tested_domain[-15..-1].eql?('.salesforce.com')
+            return true if tested_domain[-15..].eql?('.salesforce.com')
 
             # original implementation
             base = effective_host base_domain
