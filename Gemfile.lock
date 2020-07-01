@@ -44,7 +44,7 @@ GEM
       websocket-driver (>= 0.5.1)
     hashie (4.1.0)
     http_parser.rb (0.6.0)
-    json (2.3.0)
+    json (2.3.1)
     jwt (2.2.1)
     multipart-post (2.1.1)
     parallel (1.19.2)
