@@ -55,12 +55,11 @@ base: &DEFAULT
   accounts:
     handler: "AccountChangeHandler"
     replay: -1
-    salesforce:
-      name: "AllAccounts"
-      api_version: "41.0"
-      description: "Sync Accounts"
-      notify_for_fields: "Referenced"
-      query: "Select Id, Name From Account"
+    name: "AllAccounts"
+    api_version: "49.0"
+    description: "Sync Accounts"
+    notify_for_fields: "Referenced"
+    query: "Select Id, Name From Account"
 
 development:
   <<: *DEFAULT
@@ -114,12 +113,12 @@ Configure the `SalesforceStreamer` module.
 ```ruby
 # config/initializers/salesforce_streamer.rb
 
-require 'redis'
-require 'connection_pool'
-
-SalesforceStreamer.config.redis_connection = ConnectionPool.new(size: 5, timeout: 5) { Redis.new }
 SalesforceStreamer.config.logger = Logger.new(STDERR, level: 'INFO')
 SalesforceStreamer.config.exception_adapter = proc { |e| puts e }
+SalesforceStreamer.config.replay_adapter = proc { |topic|
+  topic.id || Store.get(topic.name) || topic.replay
+}
+SalesforceStreamer.config.use_middleware AfterMessageReceived
 SalesforceStreamer.config.manage_topics = true
 ```
 
