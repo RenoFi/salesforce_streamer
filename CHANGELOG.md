@@ -61,7 +61,7 @@ To retrieve the replayId before subscribing to a PushTopic,
 configure an adapter that returns an integer.
 
     SalesforceStreamer.config.replay_adapter = proc { |topic|
-      MyStore.fetch_replay_id(topic.name) || -1
+      (MyStore.fetch_replay_id(topic.name) || -1).to_i
     }
 
 This will be used to set the replayId value when subscribing to the PushTopic.

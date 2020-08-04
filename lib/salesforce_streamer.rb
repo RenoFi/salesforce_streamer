@@ -58,4 +58,8 @@ module SalesforceStreamer
   def self.config
     Configuration.instance
   end
+
+  def self.configure
+    yield Configuration.instance
+  end
 end

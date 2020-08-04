@@ -7,10 +7,14 @@ module SalesforceStreamer
 
     class << self
       attr_writer :instance
-    end
 
-    def self.instance
-      @instance ||= new
+      def configure
+        yield instance
+      end
+
+      def instance
+        @instance ||= new
+      end
     end
 
     def initialize

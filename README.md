@@ -113,13 +113,15 @@ Configure the `SalesforceStreamer` module.
 ```ruby
 # config/initializers/salesforce_streamer.rb
 
-SalesforceStreamer.config.logger = Logger.new(STDERR, level: 'INFO')
-SalesforceStreamer.config.exception_adapter = proc { |e| puts e }
-SalesforceStreamer.config.replay_adapter = proc { |topic|
-  topic.id || Store.get(topic.name) || topic.replay
-}
-SalesforceStreamer.config.use_middleware AfterMessageReceived
-SalesforceStreamer.config.manage_topics = true
+SalesforceStreamer.configure do |config|
+  config.logger = Logger.new(STDERR, level: 'INFO')
+  config.exception_adapter = proc { |e| puts e }
+  config.replay_adapter = proc { |topic|
+    (Store.get(topic.name) || topic.replay).to_i
+  }
+  config.use_middleware AfterMessageReceived
+  config.manage_topics = true
+end
 ```
 
 ### Launch The Streamer
