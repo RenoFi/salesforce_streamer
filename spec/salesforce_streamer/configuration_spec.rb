@@ -39,6 +39,18 @@ RSpec.describe SalesforceStreamer::Configuration do
     end
   end
 
+  describe '#replay_adapter.call(topic)' do
+    subject { config.replay_adapter.call(push_topic) }
+
+    let(:config) { described_class.new }
+
+    context 'given a PushTopic' do
+      let(:push_topic) { PushTopicFactory.make }
+
+      specify { expect(subject).to eq(-1) }
+    end
+  end
+
   describe '#middleware' do
     let(:config) { described_class.new }
 
@@ -59,8 +71,8 @@ RSpec.describe SalesforceStreamer::Configuration do
     end
   end
 
-  describe '#middleware_chain_for' do
-    subject { config.middleware_chain_for(proc {}) }
+  describe '#middleware_runner' do
+    subject { config.middleware_runner(proc {}) }
 
     let(:config) { described_class.new }
 

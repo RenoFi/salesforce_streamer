@@ -39,7 +39,7 @@ module SalesforceStreamer
     end
 
     def message_middleware
-      Configuration.instance.middleware_chain_for(handler)
+      Configuration.instance.middleware_runner(handler)
     end
 
     class << self

@@ -28,12 +28,17 @@ module SalesforceStreamer
       @manage_topics
     end
 
+    # adds a setup proc to the middleware array
     def use_middleware(klass, *args, &block)
-      middleware << proc { |app| klass.new(app, *args, &block) }
+      @middleware << [klass, args, block]
     end
 
-    def middleware_chain_for(app)
-      middleware.reduce(app) { |memo, middleware| middleware.call(memo) }
+    # returns a ready to use chain of middleware
+    def middleware_runner(last_handler)
+      @middleware.reduce(last_handler) do |next_handler, current_handler|
+        klass, args, block = current_handler
+        klass.new(next_handler, *args, &block)
+      end
     end
 
     def push_topic_data
