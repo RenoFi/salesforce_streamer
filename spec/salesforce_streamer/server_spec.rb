@@ -40,16 +40,7 @@ RSpec.describe SalesforceStreamer::Server do
     end
 
     context 'given push_topics is [push_topic]' do
-      let(:data) do
-        {
-          'handler' => 'TestHandlerClass',
-          'salesforce' => {
-            'name' => 'TestPushTopic',
-            'query' => 'Test Query Statement'
-          }
-        }
-      end
-      let(:push_topics) { [SalesforceStreamer::PushTopic.new(data: data)] }
+      let(:push_topics) { [PushTopicFactory.make] }
 
       it 'subscribes to topic names' do
         expect(client).to receive(:subscribe)

@@ -63,26 +63,17 @@ RSpec.describe SalesforceStreamer::SalesforceClient do
     subject { client.upsert_push_topic push_topic }
 
     context 'given a push topic' do
-      let(:data) do
-        {
-          'handler' => 'TestHandlerClass',
-          'salesforce' => {
-            'name' => 'Name',
-            'query' => 'Select Id From Account'
-          }
-        }
-      end
-      let(:push_topic) { SalesforceStreamer::PushTopic.new data: data }
+      let(:push_topic) { PushTopicFactory.make description: 'Something about it' }
 
       it 'calls Restforce.upsert with proper arguments' do
         push_topic.id = 123
         attribute_hash = {
           'Id' => 123,
-          'Name' => 'Name',
-          'ApiVersion' => '41.0',
-          'Description' => 'Name',
+          'Name' => push_topic.name,
+          'ApiVersion' => push_topic.api_version,
+          'Description' => 'Something about it',
           'NotifyForFields' => 'Referenced',
-          'Query' => 'Select Id From Account'
+          'Query' => push_topic.query
         }
         args = ['PushTopic', :Id, attribute_hash]
         expect(restforce).to receive(:upsert!).with(*args)

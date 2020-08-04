@@ -3,13 +3,13 @@ module SalesforceStreamer
 
   class MissingCLIFlagError < StandardError
     def initialize(flag)
-      super 'Missing required command line flag: ' + flag.to_s
+      super "Missing required command line flag: #{flag}"
     end
   end
 
   class NilQueryError < StandardError
     def initialize(name)
-      super 'Query not defined for ' + name.to_s
+      super "Query not defined for #{name}"
     end
   end
 
@@ -21,7 +21,13 @@ module SalesforceStreamer
 
   class PushTopicNameTooLongError < StandardError
     def initialize(name)
-      super 'PushTopic name: ' + name.to_s + ' (' + name.size.to_s + '/25)'
+      super "PushTopic name: #{name} (#{name.size}/25)"
+    end
+  end
+
+  class UnprocessableHandlerError < StandardError
+    def initialize(constant)
+      super "#{constant} does not repond to .call or .perform_async"
     end
   end
 end
