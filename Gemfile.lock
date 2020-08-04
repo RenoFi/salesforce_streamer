@@ -3,7 +3,7 @@ PATH
   specs:
     salesforce_streamer (1.2.2)
       faye (= 0.8.9)
-      restforce (~> 4.2)
+      restforce (>= 4.2, < 6.0)
 
 GEM
   remote: https://rubygems.org/
@@ -29,7 +29,7 @@ GEM
     em-socksify (0.3.2)
       eventmachine (>= 1.0.0.beta.4)
     eventmachine (1.2.7)
-    faraday (1.0.0)
+    faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
@@ -56,11 +56,10 @@ GEM
     rainbow (3.0.0)
     rake (13.0.1)
     regexp_parser (1.7.1)
-    restforce (4.2.2)
-      faraday (>= 0.9.0, <= 1.0)
-      faraday_middleware (>= 0.8.8, <= 1.0)
+    restforce (5.0.0)
+      faraday (>= 0.9.0, <= 2.0)
+      faraday_middleware (>= 0.8.8, <= 2.0)
       hashie (>= 1.2.0, < 5.0)
-      json (>= 1.7.5)
       jwt (>= 1.5.6)
     rexml (3.2.4)
     rspec (3.9.0)
