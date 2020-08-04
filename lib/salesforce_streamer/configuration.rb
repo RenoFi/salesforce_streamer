@@ -2,7 +2,7 @@ module SalesforceStreamer
   # Manages server configuration.
   class Configuration
     attr_accessor :environment, :logger, :require_path, :config_file, :manage_topics,
-      :server, :exception_adapter, :persistence_adapter, :redis_connection, :middleware
+      :server, :exception_adapter, :redis_connection, :middleware, :replay_adapter
 
     class << self
       attr_writer :instance
@@ -16,7 +16,7 @@ module SalesforceStreamer
       @environment = ENV['RACK_ENV'] || :development
       @logger = Logger.new(IO::NULL)
       @exception_adapter = proc { |exc| fail(exc) }
-      @persistence_adapter = RedisReplay.new
+      @replay_adapter = proc { |topic| topic.id || topic.replay }
       @manage_topics = false
       @config_file = './config/streamer.yml'
       @require_path = './config/environment'

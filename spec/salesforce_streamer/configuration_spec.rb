@@ -10,8 +10,6 @@ RSpec.describe SalesforceStreamer::Configuration do
     specify { expect(subject).to respond_to(:config_file=) }
     specify { expect(subject).to respond_to(:exception_adapter) }
     specify { expect(subject).to respond_to(:exception_adapter=) }
-    specify { expect(subject).to respond_to(:persistence_adapter) }
-    specify { expect(subject).to respond_to(:persistence_adapter=) }
     specify { expect(subject).to respond_to(:logger) }
     specify { expect(subject).to respond_to(:logger=) }
     specify { expect(subject).not_to respond_to(:push_topic_data=) }
