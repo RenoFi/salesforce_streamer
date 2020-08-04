@@ -53,7 +53,7 @@ module SalesforceStreamer
         if constant.respond_to? :call
           constant
         elsif constant.respond_to? :perform_async
-          proc { |message| handler_constant.perform_async message }
+          proc { |message| constant.perform_async message }
         else
           fail(UnprocessableHandlerError, constant)
         end
