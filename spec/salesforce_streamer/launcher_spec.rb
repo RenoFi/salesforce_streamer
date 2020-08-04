@@ -1,10 +1,10 @@
 RSpec.describe SalesforceStreamer::Launcher do
   let(:server) { instance_double(SalesforceStreamer::Server, run: true, 'push_topics=' => true) }
-  let(:manager) { instance_double(SalesforceStreamer::TopicManager, run: true, push_topics: []) }
+  let(:manager) { instance_double(SalesforceStreamer::SalesforceTopicManager, upsert_topics!: true, push_topics: []) }
 
   before do
     allow(SalesforceStreamer::Server).to receive(:new) { server }
-    allow(SalesforceStreamer::TopicManager).to receive(:new) { manager }
+    allow(SalesforceStreamer::SalesforceTopicManager).to receive(:new) { manager }
   end
 
   context 'when loading push topics from :test' do
@@ -22,8 +22,8 @@ RSpec.describe SalesforceStreamer::Launcher do
 
       specify { expect(subject).to respond_to :run }
 
-      it 'calls TopicManager.new with push_topics loaded from config YAML' do
-        expect(SalesforceStreamer::TopicManager)
+      it 'calls SalesforceTopicManager.new with push_topics loaded from config YAML' do
+        expect(SalesforceStreamer::SalesforceTopicManager)
           .to receive(:new)
           .with(push_topics: kind_of(Array))
         subject
@@ -35,8 +35,8 @@ RSpec.describe SalesforceStreamer::Launcher do
 
       let(:launcher) { described_class.new }
 
-      it 'calls TopicManager#run' do
-        expect(manager).to receive :run
+      it 'calls SalesforceTopicManager#run' do
+        expect(manager).to receive :upsert_topics!
         subject
       end
 

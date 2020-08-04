@@ -1,4 +1,4 @@
-RSpec.describe SalesforceStreamer::TopicManager do
+RSpec.describe SalesforceStreamer::SalesforceTopicManager do
   let(:client) do
     instance_double(SalesforceStreamer::SalesforceClient,
       find_push_topic_by_name: {},
@@ -17,26 +17,18 @@ RSpec.describe SalesforceStreamer::TopicManager do
     context 'when push_topics is []' do
       let(:push_topics) { [] }
 
-      specify { expect(subject).to respond_to :run }
+      specify { expect(subject).to respond_to :upsert_topics! }
     end
   end
 
-  describe '#run' do
-    subject { manager.run }
+  describe '#upsert_topics!' do
+    subject { manager.upsert_topics! }
 
     let(:manager) { described_class.new push_topics: push_topics }
 
     context 'when [push_topic]' do
-      let(:data) do
-        {
-          'handler' => 'TestHandlerClass',
-          'salesforce' => {
-            'name' => 'Name',
-            'query' => 'Select Id From Account'
-          }
-        }
-      end
-      let(:push_topics) { [SalesforceStreamer::PushTopic.new(data: data)] }
+      let(:push_topic) { PushTopicFactory.make }
+      let(:push_topics) { [push_topic] }
 
       it 'sets push_topic.id' do
         response = OpenStruct.new(Id: 'abc123')
