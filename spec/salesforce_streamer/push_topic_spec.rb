@@ -2,13 +2,7 @@ RSpec.describe SalesforceStreamer::PushTopic do
   describe '#handle' do
     subject { topic.handle(message) }
 
-    let(:topic) do
-      described_class.new(data: {
-                            'name' => 'TestTopic',
-        'handler' => 'TestHandlerClass',
-        'salesforce' => { 'query' => '', 'name' => 'sfname' }
-                          })
-    end
+    let(:topic) { PushTopicFactory.make }
     let(:message) do
       {
         'event' => {
@@ -24,98 +18,24 @@ RSpec.describe SalesforceStreamer::PushTopic do
     end
 
     specify do
-      expect(SalesforceStreamer::ReplayPersistence)
-        .to receive(:record).with('sfname', 50)
       expect(TestHandlerClass).to receive(:call).with(message)
       subject
     end
   end
 
-  describe '#replay' do
-    subject { push_topic.replay }
-
-    let(:push_topic) { described_class.new data: data }
-
-    context 'when ReplayPersistence records a change' do
-      let(:data) do
-        {
-          'name' => 'name',
-          'handler' => 'TestHandlerClass',
-          'salesforce' => { 'query' => '', 'name' => 'sfname' }
-        }
-      end
-
-      before do
-        obj = Object.new
-        obj.define_singleton_method(:retrieve) do |_key|
-          SecureRandom.uuid # simulate a difference in value returned from persistence
-        end
-        SalesforceStreamer.config.persistence_adapter = obj
-      end
-
-      it 'the returned value is not memoize' do
-        expect(push_topic.replay).not_to eq push_topic.replay
-      end
-    end
-
-    context 'when config.persistence_adapter is nil' do
-      let(:data) do
-        {
-          'name' => 'name',
-          'handler' => 'TestHandlerClass',
-          'salesforce' => { 'query' => '', 'name' => 'sfname' }
-        }
-      end
-
-      before { SalesforceStreamer.config.persistence_adapter = nil }
-
-      specify { expect(subject).to eq(-1) }
-
-      context 'when push_topic initialized with replay 100' do
-        let(:data) do
-          {
-            'name' => 'name',
-            'handler' => 'TestHandlerClass',
-            'replay' => 100,
-            'salesforce' => { 'query' => '', 'name' => 'sfname' }
-          }
-        end
-
-        specify { expect(subject).to eq(100) }
-      end
-
-      context 'when config.persistence_adapter retrieves 150' do
-        before do
-          mock = instance_double(SalesforceStreamer::RedisReplay, retrieve: 150)
-          allow(SalesforceStreamer.config).to receive(:persistence_adapter) { mock }
-        end
-
-        specify { expect(subject).to eq 150 }
-      end
-    end
-  end
-
   describe '.new' do
-    subject { described_class.new data: data }
+    subject { PushTopicFactory.make args }
 
-    context 'when data is {}' do
-      let(:data) { {} }
-
-      specify { expect { subject }.to raise_exception { SalesforceStreamer::PushTopicHandlerMissingError } }
-    end
-
-    context 'with data' do
-      let(:data) do
+    context 'with all options' do
+      let(:args) do
         {
-          'handler' => 'TestHandlerClass',
-          'replay' => '-2',
-          'salesforce' => {
-            'name' => 'UniqueName',
-            'api_version' => '29.0',
-            'description' => 'A description',
-            'notify_for_fields' => 'All',
-            'query' => 'SELECT Id FROM Account'
-          }
+          name: 'TestTopic',
+          handler: 'TestHandlerClass',
+          replay: -2,
+          api_version: '29.0',
+          description: 'A description',
+          notify_for_fields: 'All',
+          query: 'SELECT Id FROM Account'
         }
       end
 
@@ -124,7 +44,7 @@ RSpec.describe SalesforceStreamer::PushTopic do
       end
 
       describe '#handler' do
-        specify { expect(subject.handler).to eq 'TestHandlerClass' }
+        specify { expect(subject.handler).to eq TestHandlerClass }
       end
 
       describe '#id' do
@@ -132,7 +52,7 @@ RSpec.describe SalesforceStreamer::PushTopic do
       end
 
       describe '#name' do
-        specify { expect(subject.name).to eq 'UniqueName' }
+        specify { expect(subject.name).to eq 'TestTopic' }
       end
 
       describe '#notify_for_fields' do
@@ -149,22 +69,20 @@ RSpec.describe SalesforceStreamer::PushTopic do
     end
 
     context 'when data includes defined handler and query and name' do
-      let(:data) do
+      let(:args) do
         {
-          'handler' => 'TestHandlerClass',
-          'salesforce' => {
-            'name' => 'UniqueName',
-            'query' => 'SELECT Id FROM Account'
-          }
+          name: 'TestTopic',
+          handler: 'TestHandlerClass',
+          query: 'SELECT Id FROM Account'
         }
       end
 
       describe '#name' do
-        specify { expect(subject.name).to eq 'UniqueName' }
+        specify { expect(subject.name).to eq 'TestTopic' }
       end
 
       describe '#handler' do
-        specify { expect(subject.handler).to eq 'TestHandlerClass' }
+        specify { expect(subject.handler).to eq TestHandlerClass }
       end
 
       describe '#id' do
