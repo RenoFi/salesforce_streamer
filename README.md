@@ -20,33 +20,11 @@ And then execute:
 
 ## Usage
 
-### Middleware
-
-You can initialize the streamer server with any number of middleware classes.
-When a message is received by a PushTopic subscription, the chain of middleware
-classes are executed before the message handler is called.
-
-```ruby
-# config/initializers/streamer.rb
-class MySimpleMiddleware
-  def initialize(handler)
-    @handler = handler
-  end
-  def call(message)
-    @handler.call(message)
-  end
-end
-
-SalesforceStreamer.config.use_middleware MySimpleMiddleware
-```
-
 ### Configure Push Topics
 
-Create a YAML file to configure your server subscriptions.  The configuration
-for each subscription must have a nested `salesforce:` key. These settings will
-be synced to your Salesforce instance when the `-x` flag is set on the command
-line. For more information about the `replay:` and `notify_fields_for` options
-please see the Salesforce Streaming API reference documentation.
+Create a YAML file to configure your PushTopic subscriptions. When streamer
+starts up it will check for any differences between Salesforce PushTopics and
+this yaml and update any differences when `config.manage_topics = true`.
 
 ```yaml
 # config/streamer.yml
@@ -55,12 +33,11 @@ base: &DEFAULT
   accounts:
     handler: "AccountChangeHandler"
     replay: -1
-    salesforce:
-      name: "AllAccounts"
-      api_version: "41.0"
-      description: "Sync Accounts"
-      notify_for_fields: "Referenced"
-      query: "Select Id, Name From Account"
+    name: "AllAccounts"
+    api_version: "49.0"
+    description: "Sync Accounts"
+    notify_for_fields: "Referenced"
+    query: "Select Id, Name From Account"
 
 development:
   <<: *DEFAULT
@@ -72,14 +49,6 @@ production:
   <<: *DEFAULT
 ```
 
-It's important to note that the way push topics are managed is by the Salesforce
-name attribute.  This should uniquely identify each push topic.  It is not
-recommended to change the name of your push topic definitions; otherwise, the
-push topic manager will not find a push topic in Salesforce resulting in the
-creation of a brand new push topic. If the push topic manager identifies a
-difference in any of the other Salesforce attributes, then it will update the
-push topic in Salesforce before starting the streaming server.
-
 ### Define Message Handlers
 
 Define your handlers somewhere in your project. They must respond to either
@@ -89,14 +58,17 @@ Define your handlers somewhere in your project. They must respond to either
 # lib/account_change_handler.rb
 # Handle account changes inline
 class AccountChangeHandler
-  def self.call(message)
-    puts message
+  class << self
+    def call(message)
+      puts message
+    end
   end
 end
 
 # Handle account changes asynchronously
 class AccountChangeHandler
   include Sidekiq::Worker
+
   def perform(message)
     puts message
   end
@@ -114,13 +86,15 @@ Configure the `SalesforceStreamer` module.
 ```ruby
 # config/initializers/salesforce_streamer.rb
 
-require 'redis'
-require 'connection_pool'
-
-SalesforceStreamer.config.redis_connection = ConnectionPool.new(size: 5, timeout: 5) { Redis.new }
-SalesforceStreamer.config.logger = Logger.new(STDERR, level: 'INFO')
-SalesforceStreamer.config.exception_adapter = proc { |e| puts e }
-SalesforceStreamer.config.manage_topics = true
+SalesforceStreamer.configure do |config|
+  config.logger = Logger.new(STDERR, level: 'INFO')
+  config.exception_adapter = proc { |e| puts e }
+  config.replay_adapter = proc { |topic|
+    (ReplayStore.get(topic.name) || topic.replay).to_i
+  }
+  config.use_middleware AfterMessageReceived
+  config.manage_topics = true
+end
 ```
 
 ### Launch The Streamer
@@ -159,6 +133,26 @@ By default, the executable will load the YAML based on the `RACK_ENV` environmen
 variable, or default to `:development` if not set. You can override this by
 setting the `config.environment = :integration`
 
+### Message Handling Middleware
+
+You can initialize the streamer server with any number of middleware classes.
+When a message is received by a PushTopic subscription, the chain of middleware
+classes are executed before the message handler is called.
+
+```ruby
+# config/initializers/streamer.rb
+class MySimpleMiddleware
+  def initialize(handler)
+    @handler = handler
+  end
+
+  def call(message)
+    @handler.call(message)
+  end
+end
+
+SalesforceStreamer.config.use_middleware MySimpleMiddleware
+```
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

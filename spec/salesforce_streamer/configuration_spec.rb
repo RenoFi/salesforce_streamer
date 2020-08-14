@@ -10,8 +10,6 @@ RSpec.describe SalesforceStreamer::Configuration do
     specify { expect(subject).to respond_to(:config_file=) }
     specify { expect(subject).to respond_to(:exception_adapter) }
     specify { expect(subject).to respond_to(:exception_adapter=) }
-    specify { expect(subject).to respond_to(:persistence_adapter) }
-    specify { expect(subject).to respond_to(:persistence_adapter=) }
     specify { expect(subject).to respond_to(:logger) }
     specify { expect(subject).to respond_to(:logger=) }
     specify { expect(subject).not_to respond_to(:push_topic_data=) }
@@ -41,6 +39,18 @@ RSpec.describe SalesforceStreamer::Configuration do
     end
   end
 
+  describe '#replay_adapter.call(topic)' do
+    subject { config.replay_adapter.call(push_topic) }
+
+    let(:config) { described_class.new }
+
+    context 'given a PushTopic' do
+      let(:push_topic) { PushTopicFactory.make }
+
+      specify { expect(subject).to eq(-1) }
+    end
+  end
+
   describe '#middleware' do
     let(:config) { described_class.new }
 
@@ -61,8 +71,8 @@ RSpec.describe SalesforceStreamer::Configuration do
     end
   end
 
-  describe '#middleware_chain_for' do
-    subject { config.middleware_chain_for(proc {}) }
+  describe '#middleware_runner' do
+    subject { config.middleware_runner(proc {}) }
 
     let(:config) { described_class.new }
 

@@ -4,16 +4,15 @@ require 'optparse'
 require 'restforce'
 require 'yaml'
 require 'forwardable'
+require 'dry-initializer'
 
 require 'salesforce_streamer/configuration'
 require 'salesforce_streamer/errors'
 require 'salesforce_streamer/replay_id_error_extension'
 require 'salesforce_streamer/log'
 require 'salesforce_streamer/push_topic'
-require 'salesforce_streamer/topic_manager'
+require 'salesforce_streamer/salesforce_topic_manager'
 require 'salesforce_streamer/salesforce_client'
-require 'salesforce_streamer/replay_persistence'
-require 'salesforce_streamer/redis_replay'
 require 'salesforce_streamer/server'
 require 'salesforce_streamer/version'
 require 'salesforce_streamer/launcher'
@@ -60,9 +59,7 @@ module SalesforceStreamer
     Configuration.instance
   end
 
-  class RedisConnectionError < StandardError
-    def initialize
-      super 'SalesforceStreamer.config.redis_connection not set'
-    end
+  def self.configure
+    yield Configuration.instance
   end
 end

@@ -1,22 +1,27 @@
 module SalesforceStreamer
   # Manages server configuration.
   class Configuration
-    attr_accessor :environment, :logger, :require_path, :config_file, :manage_topics,
-      :server, :exception_adapter, :persistence_adapter, :redis_connection, :middleware
+    attr_accessor :environment, :logger, :require_path, :config_file,
+      :manage_topics, :exception_adapter, :replay_adapter
+    attr_reader :middleware
 
     class << self
       attr_writer :instance
-    end
 
-    def self.instance
-      @instance ||= new
+      def configure
+        yield instance
+      end
+
+      def instance
+        @instance ||= new
+      end
     end
 
     def initialize
       @environment = ENV['RACK_ENV'] || :development
       @logger = Logger.new(IO::NULL)
       @exception_adapter = proc { |exc| fail(exc) }
-      @persistence_adapter = RedisReplay.new
+      @replay_adapter = proc { |topic| topic.id || topic.replay }
       @manage_topics = false
       @config_file = './config/streamer.yml'
       @require_path = './config/environment'
@@ -27,12 +32,17 @@ module SalesforceStreamer
       @manage_topics
     end
 
+    # adds a setup proc to the middleware array
     def use_middleware(klass, *args, &block)
-      middleware << proc { |app| klass.new(app, *args, &block) }
+      @middleware << [klass, args, block]
     end
 
-    def middleware_chain_for(app)
-      middleware.reduce(app) { |memo, middleware| middleware.call(memo) }
+    # returns a ready to use chain of middleware
+    def middleware_runner(last_handler)
+      @middleware.reduce(last_handler) do |next_handler, current_handler|
+        klass, args, block = current_handler
+        klass.new(next_handler, *args, &block)
+      end
     end
 
     def push_topic_data

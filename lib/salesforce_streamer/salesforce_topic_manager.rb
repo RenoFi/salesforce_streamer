@@ -1,5 +1,5 @@
 module SalesforceStreamer
-  class TopicManager
+  class SalesforceTopicManager
     attr_reader :push_topics
 
     def initialize(push_topics:)
@@ -7,10 +7,11 @@ module SalesforceStreamer
       @client = SalesforceClient.new
     end
 
-    def run
-      Log.info 'Running Topic Manager'
+    def upsert_topics!
+      Log.info 'Starting to upsert PushTopic definitions into Salesforce'
       @push_topics.each do |push_topic|
-        Log.debug push_topic.to_s
+        Log.info push_topic.name
+        Log.debug push_topic.attributes.to_json
         upsert(push_topic) if diff?(push_topic)
       end
     end
@@ -29,12 +30,12 @@ module SalesforceStreamer
       return true unless push_topic.notify_for_fields.eql?(hashie.NotifyForFields)
       return true unless push_topic.api_version.to_s.eql?(hashie.ApiVersion.to_s)
 
-      Log.debug 'No differences detected'
+      Log.info 'No differences detected'
       false
     end
 
     def upsert(push_topic)
-      Log.info "Upsert PushTopic #{push_topic.name}"
+      Log.info "Upserting PushTopic"
       if Configuration.instance.manage_topics?
         @client.upsert_push_topic(push_topic)
       else

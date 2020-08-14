@@ -3,15 +3,14 @@ base: &DEFAULT
   first_push_topic:
     handler: "MyClassName"
     replay: -1
-    salesforce:
-      name: "FirstPushTopic"
-      api_version: "41.0"
-      description: "Some optional description"
-      notify_fields_for: "Referenced"
-      query: >-
-        SELECT Id, AccountId
-        FROM Opportunity
-        WHERE StageName = 'First Contact'
+    name: "FirstPushTopic"
+    api_version: "41.0"
+    description: "Some optional description"
+    notify_fields_for: "Referenced"
+    query: >-
+      SELECT Id, AccountId
+      FROM Opportunity
+      WHERE StageName = 'First Contact'
 
 
 development:
@@ -20,6 +19,5 @@ development:
 test:
   test_min_query:
     handler: "TestHandlerClass"
-    salesforce:
-      name: "TestPushTopic"
-      query: "SELECT AccountId FROM Opportunity"
+    name: "TestPushTopic"
+    query: "SELECT AccountId FROM Opportunity"

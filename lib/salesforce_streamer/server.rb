@@ -34,7 +34,8 @@ module SalesforceStreamer
     def start_em
       EM.run do
         @push_topics.map do |topic|
-          client.subscribe topic.name, replay: topic.replay.to_i do |message|
+          replay_id = Configuration.instance.replay_adapter.call(topic)
+          client.subscribe topic.name, replay: replay_id.to_i do |message|
             replay_id = message.dig('event', 'replayId')
             Log.info "Message #{replay_id} received from topic #{topic.name}"
             topic.handle message

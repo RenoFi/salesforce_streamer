@@ -14,6 +14,7 @@ Gem::Specification.new do |spec|
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = spec.homepage
+  spec.metadata['documentation_uri'] = 'https://www.rubydoc.info/gems/salesforce_streamer'
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(bin/|spec/|\.rub)}) }
@@ -24,7 +25,8 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.6'
 
-  spec.add_dependency 'faye', '0.8.9'
+  spec.add_dependency 'dry-initializer', '~> 3.0'
+  spec.add_dependency 'faye', '~> 1.4'
   spec.add_dependency 'restforce', '>= 4.2', '< 6.0'
 
   spec.add_development_dependency 'byebug'
