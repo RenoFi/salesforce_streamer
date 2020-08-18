@@ -44,7 +44,7 @@ RSpec.describe SalesforceStreamer::Server do
 
       it 'subscribes to topic names' do
         expect(client).to receive(:subscribe)
-          .with(push_topics[0].name, replay: push_topics[0].replay)
+          .with(push_topics[0].name, replay: {})
         subject
       end
     end

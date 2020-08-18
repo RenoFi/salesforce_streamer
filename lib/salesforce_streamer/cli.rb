@@ -32,7 +32,7 @@ module SalesforceStreamer
         end
 
         o.on '-v', '--verbose LEVEL', 'Set the log level (default no logging)' do |arg|
-          @config.logger = Logger.new(STDERR, level: arg)
+          @config.logger = Logger.new($stderr, level: arg)
         end
 
         o.on '-V', '--version', 'Print the version information' do

@@ -3,6 +3,38 @@
 Sorted so that the most recent change logs are near the top. Only significant
 changes are logged in the change log.
 
+## 2020-08-17 Scott Serok [scott@renofi.com](mailto:scott@renofi.com)
+
+v2.1 changes the expected interface of `Configuration#replay_adapter`.
+
+Normally this breaking change would require a major version bump, but since the
+functionality today is quiet broken we can call this a major bug fix.
+
+The `config.replay_adapter` should be an object that has an interface like Hash.
+It must respond to `[]` and `[]=`. By default the adapter is an empty hash.  If
+you want your push topic replayId to persist between restarts, then you should
+implement a class with an appropriate interface.
+
+```ruby
+class MyReplayAdapter
+  def [](channel)
+    MyPersistence.get(channel)
+  end
+
+  def []=(channel, replay_id)
+    MyPersistence.set(channel, replay_id)
+  end
+end
+```
+
+This change was sparked by a misunderstanding of the
+`Restforce::Concerns::Streaming::ReplayExtension` replay handlers.
+SalesforceStreamer can eliminate some complexity and fix a bug by delegating the
+responsibility of maintaining the current replayId to that ReplayExtension. The
+object will be used on each request/response cycle to record and read the latest
+replayId as long as the object assigned to `config.replay_adapter` responds to
+`[]` and `[]=`.
+
 ## 2020-08-04 Scott Serok [scott@renofi.com](mailto:scott@renofi.com)
 
 v2.0 is released as a major simplification of this library. There are 2

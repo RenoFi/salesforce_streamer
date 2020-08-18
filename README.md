@@ -89,9 +89,7 @@ Configure the `SalesforceStreamer` module.
 SalesforceStreamer.configure do |config|
   config.logger = Logger.new(STDERR, level: 'INFO')
   config.exception_adapter = proc { |e| puts e }
-  config.replay_adapter = proc { |topic|
-    (ReplayStore.get(topic.name) || topic.replay).to_i
-  }
+  config.replay_adapter = MyReplayAdapter
   config.use_middleware AfterMessageReceived
   config.manage_topics = true
 end
@@ -153,6 +151,28 @@ end
 
 SalesforceStreamer.config.use_middleware MySimpleMiddleware
 ```
+
+### ReplayAdapter
+
+The `config.replay_adapter` should be an object that has an interface like Hash.
+It must respond to `[]` and `[]=`. By default the adapter is an empty hash.  If
+you want your push topic replayId to persist between restarts, then you should
+implement a class with an appropriate interface.
+
+```ruby
+class MyReplayAdapter
+  def [](channel)
+    Persistence.get(channel)
+  end
+
+  def []=(channel, replay_id)
+    Persistence.set(channel, replay_id)
+  end
+end
+```
+
+This adapter will be used directly by `Restforce::ReplayExtension`.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

@@ -34,7 +34,7 @@ module SalesforceStreamer
       @handler = Object.const_get(@handler)
       true
     rescue NameError, TypeError => e
-      message = 'handler=' + @handler.to_s + ' exception=' + e.to_s
+      message = "handler=#{@handler} exception=#{e}"
       raise(PushTopicHandlerMissingError, message)
     end
 
