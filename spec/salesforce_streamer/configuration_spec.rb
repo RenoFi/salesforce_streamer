@@ -40,7 +40,7 @@ RSpec.describe SalesforceStreamer::Configuration do
   end
 
   describe '#replay_adapter[channel]' do
-    subject { config.replay_adapter[push_topic.name] }
+    subject { config.replay_adapter["/topic/#{push_topic.name}"] }
 
     let(:config) { described_class.new }
 
