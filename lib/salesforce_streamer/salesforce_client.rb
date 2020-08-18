@@ -8,10 +8,8 @@ module SalesforceStreamer
       @client.authenticate!
     end
 
-    def subscribe(*args)
-      @client.subscribe(args) do
-        yield
-      end
+    def subscribe(*args, &block)
+      @client.subscribe(args, &block)
     end
 
     # Returns nil or an instance of Restforce::SObject
