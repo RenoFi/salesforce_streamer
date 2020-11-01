@@ -29,8 +29,9 @@ GEM
     em-socksify (0.3.2)
       eventmachine (>= 1.0.0.beta.4)
     eventmachine (1.2.7)
-    faraday (1.0.1)
+    faraday (1.1.0)
       multipart-post (>= 1.2, < 3)
+      ruby2_keywords
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
     faye (1.4.0)
@@ -94,6 +95,7 @@ GEM
     rubocop-rspec (1.43.2)
       rubocop (~> 0.87)
     ruby-progressbar (1.10.1)
+    ruby2_keywords (0.0.2)
     simplecov (0.19.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
