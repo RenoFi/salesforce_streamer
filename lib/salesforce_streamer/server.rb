@@ -27,7 +27,10 @@ module SalesforceStreamer
       return @client if @client
       @client = Restforce.new
       @client.authenticate!
-      @client.faye.add_extension ReplayIdErrorExtension.new
+      Configuration.instance.faye_extensions.each do |extension|
+        Log.debug %(adding Faye extension #{extension})
+        @client.faye.add_extension extension
+      end
       @client
     end
 
