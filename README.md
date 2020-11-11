@@ -91,6 +91,7 @@ SalesforceStreamer.configure do |config|
   config.exception_adapter = proc { |e| puts e }
   config.replay_adapter = MyReplayAdapter
   config.use_middleware AfterMessageReceived
+  config.use_faye_extension ErrorLoggingExtension.new
   config.manage_topics = true
 end
 ```
@@ -172,6 +173,17 @@ end
 ```
 
 This adapter will be used directly by `Restforce::ReplayExtension`.
+
+### Use Faye Extension
+
+The `config.use_faye_extension` should be given an object that responds to
+`.incoming(message, callback)` or `.outgoing(message, callback)` or both. Find
+out more about extensions from
+[Faye](https://github.com/faye/faye/blob/master/spec/ruby/server/extensions_spec.rb)
+specs.
+
+Any configured extensions are added to the Faye client used by the Restforce
+client when starting up the server.
 
 ## Development
 

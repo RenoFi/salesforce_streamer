@@ -3,7 +3,7 @@ module SalesforceStreamer
   class Configuration
     attr_accessor :environment, :logger, :require_path, :config_file,
       :manage_topics, :exception_adapter, :replay_adapter
-    attr_reader :middleware
+    attr_reader :middleware, :faye_extensions
 
     class << self
       attr_writer :instance
@@ -26,6 +26,7 @@ module SalesforceStreamer
       @config_file = './config/streamer.yml'
       @require_path = './config/environment'
       @middleware = []
+      @faye_extensions = [ReplayIdErrorExtension.new]
     end
 
     def manage_topics?
@@ -35,6 +36,11 @@ module SalesforceStreamer
     # adds a setup proc to the middleware array
     def use_middleware(klass, *args, &block)
       @middleware << [klass, args, block]
+    end
+
+    # adds a Faye extension
+    def use_faye_extension(extension)
+      @faye_extensions << extension
     end
 
     # returns a ready to use chain of middleware
