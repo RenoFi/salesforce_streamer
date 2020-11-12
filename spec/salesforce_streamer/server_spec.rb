@@ -49,4 +49,21 @@ RSpec.describe SalesforceStreamer::Server do
       end
     end
   end
+
+  describe '#restart' do
+    subject { server.restart }
+
+    let(:config) { SalesforceStreamer::Configuration.new }
+    let(:server) { described_class.new push_topics: [] }
+
+    before do
+      allow(EM).to receive(:run)
+      server.run
+    end
+
+    it 'resets Restforce client' do
+      expect(Restforce).to receive(:new)
+      subject
+    end
+  end
 end

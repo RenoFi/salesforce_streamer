@@ -183,8 +183,23 @@ out more about extensions from
 specs.
 
 Any configured extensions are added to the Faye client used by the Restforce
-client when starting up the server.
+client when starting up the server. If the extension responds to `.server=` then
+the instance of `SalesforceStreamer::Server` is assigned. This may be convenient
+to restart the server subscriptions if an error requires a reset.
 
+```ruby
+class MyRestartFayeExtension
+  attr_accessor :server
+
+  def incoming(message, callback)
+    callback.call(message).tap |message|
+      server.restart if message['error'] == 'tragic'
+    end
+  end
+end
+
+SalesforceStreamer.config.use_faye_extension MyRestartFayeExtension.new
+```
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

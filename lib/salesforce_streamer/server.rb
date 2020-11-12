@@ -1,15 +1,23 @@
 module SalesforceStreamer
   class Server
     attr_writer :push_topics
+    attr_reader :client
 
     def initialize(push_topics: [])
       @push_topics = push_topics
     end
 
     def run
-      Log.info 'Starting Server'
+      Log.info 'Starting server'
       catch_signals
-      start_em
+      reset_client
+      EM.run { subscribe }
+    end
+
+    def restart
+      Log.info 'Restarting server'
+      reset_client
+      EM.next_tick { subscribe }
     end
 
     private
@@ -23,24 +31,21 @@ module SalesforceStreamer
       end
     end
 
-    def client
-      return @client if @client
+    def reset_client
       @client = Restforce.new
-      @client.authenticate!
+      client.authenticate!
       Configuration.instance.faye_extensions.each do |extension|
         Log.debug %(adding Faye extension #{extension})
-        @client.faye.add_extension extension
+        extension.server = self if extension.respond_to?(:server=)
+        client.faye.add_extension extension
       end
-      @client
     end
 
-    def start_em
-      EM.run do
-        @push_topics.map do |topic|
-          client.subscribe topic.name, replay: Configuration.instance.replay_adapter do |message|
-            Log.info "Message #{message.dig('event', 'replayId')} received from topic #{topic.name}"
-            topic.handle message
-          end
+    def subscribe
+      @push_topics.each do |topic|
+        client.subscribe topic.name, replay: Configuration.instance.replay_adapter do |message|
+          Log.info "Message #{message.dig('event', 'replayId')} received from topic #{topic.name}"
+          topic.handle message
         end
       end
     end
