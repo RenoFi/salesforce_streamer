@@ -4,7 +4,7 @@ PATH
     salesforce_streamer (2.3.0)
       dry-initializer (~> 3.0)
       faye (~> 1.4)
-      restforce (>= 4.2, < 6.0)
+      restforce (~> 5.0)
 
 GEM
   remote: https://rubygems.org/
@@ -92,6 +92,8 @@ GEM
     rubocop-performance (1.9.1)
       rubocop (>= 0.90.0, < 2.0)
       rubocop-ast (>= 0.4.0)
+    rubocop-rake (0.5.1)
+      rubocop
     rubocop-rspec (2.0.1)
       rubocop (~> 1.0)
       rubocop-ast (>= 1.1.0)
@@ -118,6 +120,7 @@ DEPENDENCIES
   rspec
   rubocop
   rubocop-performance
+  rubocop-rake
   rubocop-rspec
   salesforce_streamer!
 

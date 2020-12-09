@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'dry-initializer', '~> 3.0'
   spec.add_dependency 'faye', '~> 1.4'
-  spec.add_dependency 'restforce', '>= 4.2', '< 6.0'
+  spec.add_dependency 'restforce', '~> 5.0'
 
   spec.add_development_dependency 'byebug'
   spec.add_development_dependency 'codecov'
@@ -35,5 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'rubocop-performance'
+  spec.add_development_dependency 'rubocop-rake'
   spec.add_development_dependency 'rubocop-rspec'
 end

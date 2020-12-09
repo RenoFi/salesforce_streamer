@@ -4,11 +4,11 @@ module SalesforceStreamer
     extend Dry::Initializer
 
     option :name
-    option :query, proc { |str| str.gsub(/\s+/, ' ') }
-    option :handler, proc { |str| prepare_handler_proc Object.const_get(str) }
-    option :replay, proc(&:to_i), default: proc { -1 }
-    option :api_version, proc(&:to_s), default: proc { '49.0' }
-    option :notify_for_fields, default: proc { 'Referenced' }
+    option :query, ->(v) { v.gsub(/\s+/, ' ') }
+    option :handler, ->(v) { prepare_handler_proc(Object.const_get(v)) }
+    option :replay, ->(v) { v.to_i }, default: -> { -1 }
+    option :api_version, proc(&:to_s), default: -> { '49.0' }
+    option :notify_for_fields, default: -> { 'Referenced' }
     option :id, optional: true
     option :description, optional: true
 

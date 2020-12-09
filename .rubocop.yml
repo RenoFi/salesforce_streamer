@@ -1,5 +1,6 @@
 require:
   - rubocop-performance
+  - rubocop-rake
   - rubocop-rspec
 
 inherit_from:
@@ -14,5 +15,3 @@ Naming/FileName:
   Exclude:
     - 'lib/*.rb'
 
-Lint/AmbiguousBlockAssociation:
-  Enabled: false
