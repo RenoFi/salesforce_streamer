@@ -14,3 +14,10 @@ Naming/FileName:
   Exclude:
     - 'lib/*.rb'
 
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/BlockNesting:
+  Exclude:
+    - 'lib/core_extensions/**/*.rb'
+

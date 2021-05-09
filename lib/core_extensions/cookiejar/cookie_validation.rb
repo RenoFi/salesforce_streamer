@@ -30,7 +30,7 @@ module CookieJar
         result = PARAM1.match param
         unless result
           fail InvalidCookieError,
-               "Invalid cookie parameter in cookie '#{set_cookie_value}'"
+            "Invalid cookie parameter in cookie '#{set_cookie_value}'"
         end
         key = result[1].downcase.to_sym
         keyvalue = result[2]
