@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.6'
 
+  spec.add_dependency 'cookiejar', '~> 0.3.0'
   spec.add_dependency 'dry-initializer', '~> 3.0'
   spec.add_dependency 'faye', '~> 1.4'
   spec.add_dependency 'restforce', '~> 5.0'

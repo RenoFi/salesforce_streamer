@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    salesforce_streamer (2.3.0)
+    salesforce_streamer (2.4.0.rc1)
+      cookiejar (~> 0.3.0)
       dry-initializer (~> 3.0)
       faye (~> 1.4)
       restforce (~> 5.0)
