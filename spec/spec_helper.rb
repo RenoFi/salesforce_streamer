@@ -10,7 +10,7 @@ if ENV['CI'] == 'true'
 end
 
 require 'salesforce_streamer'
-Dir.glob('./spec/factories/**/*').sort.each { |f| require f }
+Dir.glob('./spec/factories/**/*').each { |f| require f }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

@@ -4,6 +4,7 @@ PATH
     salesforce_streamer (2.4.0)
       cookiejar (~> 0.3.0)
       dry-initializer (~> 3.0)
+      eventmachine (~> 1.2)
       faye (~> 1.4)
       restforce (~> 5.0)
 

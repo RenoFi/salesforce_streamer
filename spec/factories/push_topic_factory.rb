@@ -6,7 +6,7 @@ class PushTopicFactory
         handler: 'TestHandlerClass',
         query: 'SELECT Id FROM Lead'
       }
-      SalesforceStreamer::PushTopic.new default_arguments.merge(attributes)
+      SalesforceStreamer::PushTopic.new(**default_arguments.merge(attributes))
     end
   end
 end

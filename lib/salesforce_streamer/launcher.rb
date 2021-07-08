@@ -36,7 +36,7 @@ module SalesforceStreamer
       @push_topics = []
       Configuration.instance.push_topic_data.each_value do |topic_data|
         Log.debug topic_data.to_s
-        @push_topics << PushTopic.new(topic_data.transform_keys(&:to_sym))
+        @push_topics << PushTopic.new(**topic_data.transform_keys(&:to_sym))
       end
     end
   end

@@ -29,6 +29,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'dry-initializer', '~> 3.0'
   spec.add_dependency 'faye', '~> 1.4'
   spec.add_dependency 'restforce', '~> 5.0'
+  # # When you have issues installing eventmachine on osx and ruby 3, try:
+  # gem install eventmachine -- --with-openssl-dir=/usr/local/opt/openssl@1.1
+  spec.add_dependency 'eventmachine', '~> 1.2'
 
   spec.add_development_dependency 'byebug'
   spec.add_development_dependency 'codecov'

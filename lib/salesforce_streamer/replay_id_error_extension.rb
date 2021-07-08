@@ -1,6 +1,6 @@
 module SalesforceStreamer
   class ReplayIdErrorExtension
-    REPLAY_ERROR_REGEX = /^400::The replayId /.freeze
+    REPLAY_ERROR_REGEX = /^400::The replayId /
 
     def incoming(message, callback)
       if message['error']&.match?(REPLAY_ERROR_REGEX)
