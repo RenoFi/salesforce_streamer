@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    salesforce_streamer (2.4.0)
+    salesforce_streamer (2.5.0)
       cookiejar (~> 0.3.0)
       dry-initializer (~> 3.0)
       eventmachine (~> 1.2)
