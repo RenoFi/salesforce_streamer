@@ -1,5 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/salesforce_streamer.svg)](https://rubygems.org/gems/salesforce_streamer)
-[![Build Status](https://travis-ci.org/RenoFi/salesforce_streamer.svg?branch=master)](https://travis-ci.org/RenoFi/salesforce_streamer)
+[![Build Status](https://github.com/RenoFi/salesforce_streamer/actions/workflows/ci.yml/badge.svg)](https://github.com/RenoFi/salesforce_streamer/actions/workflows/ci.yml?query=branch%3Amain)
 
 # salesforce_streamer
 
