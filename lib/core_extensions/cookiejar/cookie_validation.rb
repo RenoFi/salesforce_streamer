@@ -45,6 +45,7 @@ module CookieJar
               args[:expires_at] = Time.parse keyvalue
             rescue ArgumentError
               raise unless $ERROR_INFO.message == 'time out of range'
+
               args[:expires_at] = Time.at(0x7FFFFFFF)
             end
           when :'max-age'
