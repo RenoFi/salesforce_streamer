@@ -16,7 +16,7 @@ RSpec.describe SalesforceStreamer::SalesforceClient do
   describe '#authenticate!' do
     subject { client.authenticate! }
 
-    specify { expect(subject).to eq(true) }
+    specify { expect(subject).to be(true) }
   end
 
   describe '#subscribe' do
@@ -55,7 +55,7 @@ RSpec.describe SalesforceStreamer::SalesforceClient do
       let(:records) { { 'records' => [] } }
       let!(:response) { Restforce::Collection.new(records, nil) }
 
-      specify { expect(subject).to eq nil }
+      specify { expect(subject).to be_nil }
     end
   end
 

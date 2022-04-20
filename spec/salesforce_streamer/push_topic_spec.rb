@@ -48,7 +48,7 @@ RSpec.describe SalesforceStreamer::PushTopic do
       end
 
       describe '#id' do
-        specify { expect(subject.id).to eq nil }
+        specify { expect(subject.id).to be_nil }
       end
 
       describe '#name' do
@@ -86,7 +86,7 @@ RSpec.describe SalesforceStreamer::PushTopic do
       end
 
       describe '#id' do
-        specify { expect(subject.id).to eq nil }
+        specify { expect(subject.id).to be_nil }
       end
 
       describe '#query' do
