@@ -3,6 +3,10 @@
 Sorted so that the most recent change logs are near the top. Only significant
 changes are logged in the change log.
 
+## 2022-08-01 Krzysztof Knapik
+
+v2.7 bump dependency constraints
+
 ## 2022-04-10 Krzysztof Knapik
 
 v2.6 drops ruby 2.7 support and adds ruby 3.1 support

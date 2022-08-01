@@ -26,11 +26,14 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 3.0'
 
-  spec.add_dependency 'cookiejar', '~> 0.3.0'
-  spec.add_dependency 'dry-initializer', '~> 3.0'
+  spec.add_dependency 'cookiejar', '~> 0.3'
+  spec.add_dependency 'dry-initializer', '~> 3.1'
   spec.add_dependency 'faye', '~> 1.4'
-  spec.add_dependency 'restforce', '~> 5.0'
-  # # When you have issues installing eventmachine on osx and ruby 3, try:
+  spec.add_dependency 'restforce', '~> 5.3'
+  # When you have issues installing eventmachine on osx and ruby 3, try:
+  # export LDFLAGS="-L/opt/homebrew/opt/openssl@1.1/lib"
+  # export CPPFLAGS="-I/opt/homebrew/opt/openssl@1.1/include"
+  # export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig"
   # gem install eventmachine -- --with-openssl-dir=/usr/local/opt/openssl@1.1
   spec.add_dependency 'eventmachine', '~> 1.2'
 
