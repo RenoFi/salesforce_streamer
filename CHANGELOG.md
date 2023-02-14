@@ -3,6 +3,10 @@
 Sorted so that the most recent change logs are near the top. Only significant
 changes are logged in the change log.
 
+## 2023-02-14 Krzysztof Knapik
+
+v2.8 bump dependency constraints, restforce 6.2+
+
 ## 2022-08-01 Krzysztof Knapik
 
 v2.7 bump dependency constraints

@@ -1,3 +1,3 @@
 module SalesforceStreamer
-  VERSION = '2.7.1'.freeze
+  VERSION = '2.8.0'.freeze
 end
