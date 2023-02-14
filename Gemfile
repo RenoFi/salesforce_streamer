@@ -1,4 +1,11 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in salesforce_streamer.gemspec
 gemspec
+
+gem 'byebug'
+gem 'codecov'
+gem 'rake'
+gem 'rspec'
+gem 'rubocop'
+gem 'rubocop-rake'
+gem 'rubocop-rspec'

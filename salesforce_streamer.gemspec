@@ -36,12 +36,4 @@ Gem::Specification.new do |spec|
   # export PKG_CONFIG_PATH="/opt/homebrew/opt/openssl@1.1/lib/pkgconfig"
   # gem install eventmachine -- --with-openssl-dir=/usr/local/opt/openssl@1.1
   spec.add_dependency 'eventmachine', '~> 1.2'
-
-  spec.add_development_dependency 'byebug'
-  spec.add_development_dependency 'codecov'
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rspec'
-  spec.add_development_dependency 'rubocop'
-  spec.add_development_dependency 'rubocop-rake'
-  spec.add_development_dependency 'rubocop-rspec'
 end
