@@ -3,6 +3,10 @@
 Sorted so that the most recent change logs are near the top. Only significant
 changes are logged in the change log.
 
+## 2023-07-26 Krzysztof Knapik
+
+v2.9 take default api version from `SALESFORCE_API_VERSION` env var
+
 ## 2023-02-14 Krzysztof Knapik
 
 v2.8 bump dependency constraints, restforce 6.2+
