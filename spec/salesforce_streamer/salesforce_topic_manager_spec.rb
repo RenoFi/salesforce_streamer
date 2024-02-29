@@ -12,7 +12,7 @@ RSpec.describe SalesforceStreamer::SalesforceTopicManager do
   end
 
   describe '.new' do
-    subject { described_class.new push_topics: push_topics }
+    subject { described_class.new push_topics: }
 
     context 'when push_topics is []' do
       let(:push_topics) { [] }
@@ -24,7 +24,7 @@ RSpec.describe SalesforceStreamer::SalesforceTopicManager do
   describe '#upsert_topics!' do
     subject { manager.upsert_topics! }
 
-    let(:manager) { described_class.new push_topics: push_topics }
+    let(:manager) { described_class.new push_topics: }
 
     context 'when [push_topic]' do
       let(:push_topic) { PushTopicFactory.make }

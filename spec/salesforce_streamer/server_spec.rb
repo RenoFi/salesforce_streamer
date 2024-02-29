@@ -9,7 +9,7 @@ RSpec.describe SalesforceStreamer::Server do
   before { allow(Restforce).to receive(:new) { client } }
 
   describe '.new' do
-    subject { described_class.new push_topics: push_topics }
+    subject { described_class.new push_topics: }
 
     context 'given push_topics: []' do
       let(:push_topics) { [] }
@@ -26,7 +26,7 @@ RSpec.describe SalesforceStreamer::Server do
     subject { server.run }
 
     let(:config) { SalesforceStreamer::Configuration.new }
-    let(:server) { described_class.new push_topics: push_topics }
+    let(:server) { described_class.new push_topics: }
 
     before { allow(EM).to receive(:run).and_yield }
 
