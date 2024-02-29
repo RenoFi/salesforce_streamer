@@ -3,6 +3,10 @@
 Sorted so that the most recent change logs are near the top. Only significant
 changes are logged in the change log.
 
+## 2024-02-29 Krzysztof Knapik
+
+v2.10 Drop ruby 3.0 and add ruby 3.3 support
+
 ## 2023-07-26 Krzysztof Knapik
 
 v2.9 take default api version from `SALESFORCE_API_VERSION` env var
