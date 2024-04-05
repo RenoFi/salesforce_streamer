@@ -1,15 +1,8 @@
 require 'bundler/setup'
 require 'byebug'
-
-if ENV['CI'] == 'true'
-  require 'simplecov'
-  SimpleCov.start
-  require 'codecov'
-  SimpleCov.formatter = SimpleCov::Formatter::Codecov
-  SimpleCov.add_filter 'spec'
-end
-
+require 'ostruct'
 require 'salesforce_streamer'
+
 Dir.glob('./spec/factories/**/*').each { |f| require f }
 
 RSpec.configure do |config|
