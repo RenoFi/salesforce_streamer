@@ -3,6 +3,10 @@
 Sorted so that the most recent change logs are near the top. Only significant
 changes are logged in the change log.
 
+## 2024-04-05 Krzysztof Knapik
+
+v2.11 bump dependency constraints, restforce 7.3+
+
 ## 2024-02-29 Krzysztof Knapik
 
 v2.10 Drop ruby 3.0 and add ruby 3.3 support
