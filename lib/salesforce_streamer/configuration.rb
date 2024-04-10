@@ -55,7 +55,7 @@ module SalesforceStreamer
       return @push_topic_data if @push_topic_data
 
       data = YAML.safe_load_file(config_file, aliases: true)
-      @push_topic_data = data[environment.to_s]
+      @push_topic_data = data[environment.to_s] || data
     end
 
     def restforce_logger!
