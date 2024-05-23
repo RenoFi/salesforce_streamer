@@ -8,7 +8,7 @@ module SalesforceStreamer
     option :name
     option :query, ->(v) { v.gsub(/\s+/, ' ') }
     option :handler, ->(v) { prepare_handler_proc(Object.const_get(v)) }
-    option :replay, ->(v) { v.to_i }, default: -> { -1 }
+    option :replay, lambda(&:to_i), default: -> { -1 }
     option :api_version, proc(&:to_s), default: -> { DEFAULT_API_VERSION }
     option :notify_for_fields, default: -> { 'Referenced' }
     option :id, optional: true
