@@ -59,6 +59,10 @@ module SalesforceStreamer
     Configuration.instance
   end
 
+  def self.logger
+    config.logger
+  end
+
   def self.configure
     yield Configuration.instance
   end
