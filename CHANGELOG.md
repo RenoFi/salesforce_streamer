@@ -3,6 +3,10 @@
 Sorted so that the most recent change logs are near the top. Only significant
 changes are logged in the change log.
 
+## 2024-10-17 Krzysztof Knapik
+
+v2.12.0 pass HOSTNAME and K8S_POD_NAME env varas to handler
+
 ## 2024-08-02 Krzysztof Knapik
 
 v2.11.2 add SalesforceStreamer.logger
