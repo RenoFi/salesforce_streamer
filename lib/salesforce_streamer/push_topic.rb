@@ -18,6 +18,8 @@ module SalesforceStreamer
 
     def handle(message)
       message['topic'] = @name
+      message['hostname'] = ENV['HOSTNAME']
+      message['k8s_pod_name'] = ENV['K8S_POD_NAME']
       message_middleware.call(message)
     rescue StandardError => e
       Log.error e
@@ -55,7 +57,7 @@ module SalesforceStreamer
         if constant.respond_to? :call
           constant
         elsif constant.respond_to? :perform_async
-          proc { |message| constant.perform_async message }
+          proc { |message| constant.perform_async(message) }
         else
           fail(UnprocessableHandlerError, constant)
         end
