@@ -7,7 +7,7 @@ PATH
       eventmachine (~> 1.2)
       faye (~> 1.4)
       restforce (~> 7.3)
-      uri (~> 0.13)
+      uri (>= 0.13, < 2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -109,7 +109,7 @@ GEM
       rubocop (~> 1.61)
     ruby-progressbar (1.13.0)
     unicode-display_width (2.6.0)
-    uri (0.13.1)
+    uri (1.0.1)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
