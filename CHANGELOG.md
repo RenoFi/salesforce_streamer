@@ -3,6 +3,10 @@
 Sorted so that the most recent change logs are near the top. Only significant
 changes are logged in the change log.
 
+## 2025-02-05 Krzysztof Knapik
+
+v2.13.0 Ruby 3.4 support. Drop ruby 3.2 support.
+
 ## 2024-10-17 Krzysztof Knapik
 
 v2.12.0 pass HOSTNAME and K8S_POD_NAME env varas to handler
