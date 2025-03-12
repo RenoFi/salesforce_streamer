@@ -53,7 +53,7 @@ GEM
       websocket-driver (>= 0.5.1)
     hashie (5.0.0)
     http_parser.rb (0.8.0)
-    json (2.10.1)
+    json (2.10.2)
     jwt (2.10.1)
       base64
     language_server-protocol (3.17.0.4)
