@@ -53,7 +53,7 @@ GEM
       websocket-driver (>= 0.5.1)
     hashie (5.0.0)
     http_parser.rb (0.8.0)
-    json (2.10.2)
+    json (2.11.3)
     jwt (2.10.1)
       base64
     language_server-protocol (3.17.0.4)
@@ -94,7 +94,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.2)
-    rubocop (1.75.2)
+    rubocop (1.75.3)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
