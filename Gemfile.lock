@@ -30,7 +30,7 @@ GEM
       base64
       eventmachine (>= 1.0.0.beta.4)
     eventmachine (1.2.7)
-    faraday (2.13.4)
+    faraday (2.14.0)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
@@ -53,7 +53,7 @@ GEM
       websocket-driver (>= 0.8.0)
     hashie (5.0.0)
     http_parser.rb (0.8.0)
-    json (2.13.2)
+    json (2.15.0)
     jwt (3.1.2)
       base64
     language_server-protocol (3.17.0.5)
@@ -93,8 +93,8 @@ GEM
     rspec-mocks (3.13.5)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-support (3.13.5)
-    rubocop (1.80.2)
+    rspec-support (3.13.6)
+    rubocop (1.81.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -102,10 +102,10 @@ GEM
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 2.9.3, < 3.0)
-      rubocop-ast (>= 1.46.0, < 2.0)
+      rubocop-ast (>= 1.47.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.46.0)
+    rubocop-ast (1.47.1)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
     rubocop-rake (0.7.1)
