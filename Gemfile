@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'byebug'
-gem 'openssl', '~> 3.2'
+gem 'openssl', '~> 4.0'
 gem 'rake'
 gem 'rspec'
 gem 'rubocop'
