@@ -19,6 +19,7 @@ GEM
     byebug (13.0.0)
       reline (>= 0.6.0)
     cookiejar (0.3.4)
+    date (3.5.1)
     diff-lcs (1.6.2)
     dry-initializer (3.2.0)
     em-http-request (1.1.7)
@@ -30,6 +31,7 @@ GEM
     em-socksify (0.3.3)
       base64
       eventmachine (>= 1.0.0.beta.4)
+    erb (6.0.1)
     eventmachine (1.2.7)
     faraday (2.14.0)
       faraday-net_http (>= 2.0, < 3.5)
@@ -56,6 +58,10 @@ GEM
       logger
     http_parser.rb (0.8.1)
     io-console (0.8.2)
+    irb (1.16.0)
+      pp (>= 0.6.0)
+      rdoc (>= 4.0.0)
+      reline (>= 0.4.2)
     json (2.18.0)
     jwt (3.1.2)
       base64
@@ -66,18 +72,28 @@ GEM
     multipart-post (2.4.1)
     net-http (0.9.1)
       uri (>= 0.11.1)
-    openssl (3.3.2)
+    openssl (4.0.0)
     ostruct (0.6.3)
     parallel (1.27.0)
     parser (3.3.10.1)
       ast (~> 2.4.1)
       racc
+    pp (0.6.3)
+      prettyprint
+    prettyprint (0.2.0)
     prism (1.8.0)
+    psych (5.3.1)
+      date
+      stringio
     public_suffix (7.0.2)
     racc (1.8.1)
     rack (3.2.4)
     rainbow (3.1.1)
     rake (13.3.1)
+    rdoc (7.1.0)
+      erb
+      psych (>= 4.0.0)
+      tsort
     regexp_parser (2.11.3)
     reline (0.6.3)
       io-console (~> 0.5)
@@ -122,6 +138,8 @@ GEM
       lint_roller (~> 1.1)
       rubocop (~> 1.81)
     ruby-progressbar (1.13.0)
+    stringio (3.2.0)
+    tsort (0.2.0)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
@@ -136,7 +154,8 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  openssl (~> 3.2)
+  irb
+  openssl
   ostruct
   rake
   rspec
