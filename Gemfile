@@ -4,6 +4,7 @@ gemspec
 
 gem 'byebug'
 gem 'openssl', '~> 3.2'
+gem 'ostruct'
 gem 'rake'
 gem 'rspec'
 gem 'rubocop'
