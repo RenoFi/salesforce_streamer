@@ -3,6 +3,10 @@
 Sorted so that the most recent change logs are near the top. Only significant
 changes are logged in the change log.
 
+## 2026-01-23 Krzysztof Knapik
+
+v2.14.0 Ruby 4.0 support. Drop ruby 3.3 support.
+
 ## 2025-02-05 Krzysztof Knapik
 
 v2.13.0 Ruby 3.4 support. Drop ruby 3.2 support.
