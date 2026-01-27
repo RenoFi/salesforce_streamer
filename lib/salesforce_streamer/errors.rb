@@ -1,6 +1,5 @@
 module SalesforceStreamer
-  class ReplayIdError < StandardError
-  end
+  ReplayIdError = Class.new(StandardError)
 
   class MissingCLIFlagError < StandardError
     def initialize(flag)
