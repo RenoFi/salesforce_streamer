@@ -11,7 +11,7 @@ module SalesforceStreamer
 
     # Manages each PushTopic configured and starts the Streaming API listener.
     def run
-      Log.info 'Launching Streamer Services'
+      Log.info "Launching Streamer Services"
       @manager.upsert_topics!
       @server.push_topics = @manager.push_topics
       @server.run
@@ -27,12 +27,12 @@ module SalesforceStreamer
     def require_application
       return unless Configuration.instance.require_path
 
-      Log.debug 'Loading the require path'
+      Log.debug "Loading the require path"
       require Configuration.instance.require_path
     end
 
     def initialize_push_topics
-      Log.debug 'Loading and validating PushTopics configuration'
+      Log.debug "Loading and validating PushTopics configuration"
       @push_topics = []
       Configuration.instance.push_topic_data.each_value do |topic_data|
         Log.debug topic_data.to_s

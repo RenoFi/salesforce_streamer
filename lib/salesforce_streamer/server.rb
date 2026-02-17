@@ -8,14 +8,14 @@ module SalesforceStreamer
     end
 
     def run
-      Log.info 'Starting server'
+      Log.info "Starting server"
       catch_signals
       reset_client
       EM.run { subscribe }
     end
 
     def restart
-      Log.info 'Restarting server'
+      Log.info "Restarting server"
       reset_client
       EM.next_tick { subscribe }
     end
@@ -44,7 +44,7 @@ module SalesforceStreamer
     def subscribe
       @push_topics.each do |topic|
         client.subscribe topic.name, replay: Configuration.instance.replay_adapter do |message|
-          Log.info "Message #{message.dig('event', 'replayId')} received from topic #{topic.name}"
+          Log.info "Message #{message.dig("event", "replayId")} received from topic #{topic.name}"
           topic.handle message
         end
       end

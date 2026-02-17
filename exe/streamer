@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-require 'salesforce_streamer'
-require 'salesforce_streamer/cli'
+require "salesforce_streamer"
+require "salesforce_streamer/cli"
 
 cli = SalesforceStreamer::CLI.new ARGV
 cli.run

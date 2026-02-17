@@ -1,4 +1,4 @@
-require 'cookiejar/cookie_validation'
+require "cookiejar/cookie_validation"
 
 # Original source code at
 # https://github.com/dwaite/cookiejar/blob/master/lib/cookiejar/cookie_validation.rb
@@ -8,7 +8,7 @@ module CookieJar
     # skip the validation of domains. Open issue at
     # https://github.com/restforce/restforce/issues/120
     def self.domains_match(tested_domain, base_domain)
-      return true if tested_domain[-15..].eql?('.salesforce.com')
+      return true if tested_domain[-15..].eql?(".salesforce.com")
 
       # original implementation
       base = effective_host base_domain
@@ -44,11 +44,11 @@ module CookieJar
             begin
               args[:expires_at] = Time.parse keyvalue
             rescue ArgumentError
-              raise unless $ERROR_INFO.message == 'time out of range'
+              raise unless $ERROR_INFO.message == "time out of range"
 
               args[:expires_at] = Time.at(0x7FFFFFFF)
             end
-          when :'max-age'
+          when :"max-age"
             args[:max_age] = keyvalue.to_i
           when :domain, :path
             args[key] = keyvalue

@@ -18,13 +18,13 @@ module SalesforceStreamer
     end
 
     def initialize
-      @environment = ENV['RACK_ENV'] || :development
+      @environment = ENV["RACK_ENV"] || :development
       @logger = Logger.new(IO::NULL)
       @exception_adapter = proc { |exc| fail(exc) }
       @replay_adapter = Hash.new { |hash, key| hash[key] = -1 }
       @manage_topics = false
-      @config_file = './config/streamer.yml'
-      @require_path = './config/environment'
+      @config_file = "./config/streamer.yml"
+      @require_path = "./config/environment"
       @middleware = []
       @faye_extensions = [ReplayIdErrorExtension.new]
     end

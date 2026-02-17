@@ -3,25 +3,25 @@ module SalesforceStreamer
   class PushTopic
     extend Dry::Initializer
 
-    DEFAULT_API_VERSION = ENV.fetch('SALESFORCE_API_VERSION', '58.0')
+    DEFAULT_API_VERSION = ENV.fetch("SALESFORCE_API_VERSION", "58.0")
 
     option :name
-    option :query, ->(v) { v.gsub(/\s+/, ' ') }
+    option :query, ->(v) { v.gsub(/\s+/, " ") }
     option :handler, ->(v) { prepare_handler_proc(Object.const_get(v)) }
     option :replay, lambda(&:to_i), default: -> { -1 }
     option :api_version, proc(&:to_s), default: -> { DEFAULT_API_VERSION }
-    option :notify_for_fields, default: -> { 'Referenced' }
+    option :notify_for_fields, default: -> { "Referenced" }
     option :id, optional: true
     option :description, optional: true
 
     attr_writer :id
 
     def handle(message)
-      message['topic'] = @name
-      message['hostname'] = ENV['HOSTNAME']
-      message['k8s_pod_name'] = ENV['K8S_POD_NAME']
+      message["topic"] = @name
+      message["hostname"] = ENV["HOSTNAME"]
+      message["k8s_pod_name"] = ENV["K8S_POD_NAME"]
       message_middleware.call(message)
-    rescue StandardError => e
+    rescue => e
       Log.error e
       Configuration.instance.exception_adapter.call e
     end
@@ -50,7 +50,7 @@ module SalesforceStreamer
       def strip_spaces(str)
         fail(NilQueryError, @name) unless str
 
-        str.gsub(/\s+/, ' ')
+        str.gsub(/\s+/, " ")
       end
 
       def prepare_handler_proc(constant)

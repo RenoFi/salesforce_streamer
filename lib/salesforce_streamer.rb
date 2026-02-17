@@ -1,23 +1,23 @@
-require 'faye'
-require 'logger'
-require 'optparse'
-require 'restforce'
-require 'yaml'
-require 'forwardable'
-require 'dry-initializer'
+require "faye"
+require "logger"
+require "optparse"
+require "restforce"
+require "yaml"
+require "forwardable"
+require "dry-initializer"
 
-require 'salesforce_streamer/configuration'
-require 'salesforce_streamer/errors'
-require 'salesforce_streamer/replay_id_error_extension'
-require 'salesforce_streamer/log'
-require 'salesforce_streamer/push_topic'
-require 'salesforce_streamer/salesforce_topic_manager'
-require 'salesforce_streamer/salesforce_client'
-require 'salesforce_streamer/server'
-require 'salesforce_streamer/version'
-require 'salesforce_streamer/launcher'
+require "salesforce_streamer/configuration"
+require "salesforce_streamer/errors"
+require "salesforce_streamer/replay_id_error_extension"
+require "salesforce_streamer/log"
+require "salesforce_streamer/push_topic"
+require "salesforce_streamer/salesforce_topic_manager"
+require "salesforce_streamer/salesforce_client"
+require "salesforce_streamer/server"
+require "salesforce_streamer/version"
+require "salesforce_streamer/launcher"
 
-require 'core_extensions/cookiejar/cookie_validation'
+require "core_extensions/cookiejar/cookie_validation"
 
 # SalesforceStreamer wraps the Restforce Streaming API implementation so that
 # your PushTopics are managed in the same place as your server set up.

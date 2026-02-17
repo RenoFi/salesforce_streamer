@@ -8,13 +8,13 @@ RSpec.describe SalesforceStreamer::Server do
 
   before { allow(Restforce).to receive(:new) { client } }
 
-  describe '.new' do
+  describe ".new" do
     subject { described_class.new push_topics: }
 
-    context 'given push_topics: []' do
+    context "given push_topics: []" do
       let(:push_topics) { [] }
 
-      context 'given an instance of SalesforceStreamer::Configuration' do
+      context "given an instance of SalesforceStreamer::Configuration" do
         let(:config) { SalesforceStreamer::Configuration.new }
 
         specify { expect(subject).to respond_to :run }
@@ -22,7 +22,7 @@ RSpec.describe SalesforceStreamer::Server do
     end
   end
 
-  describe '#run' do
+  describe "#run" do
     subject { server.run }
 
     let(:config) { SalesforceStreamer::Configuration.new }
@@ -30,19 +30,19 @@ RSpec.describe SalesforceStreamer::Server do
 
     before { allow(EM).to receive(:run).and_yield }
 
-    context 'given push_topics is []' do
+    context "given push_topics is []" do
       let(:push_topics) { [] }
 
-      it 'no handlers subscribe' do
+      it "no handlers subscribe" do
         expect(client).not_to receive(:subscribe)
         subject
       end
     end
 
-    context 'given push_topics is [push_topic]' do
+    context "given push_topics is [push_topic]" do
       let(:push_topics) { [PushTopicFactory.make] }
 
-      it 'subscribes to topic names' do
+      it "subscribes to topic names" do
         expect(client).to receive(:subscribe)
           .with(push_topics[0].name, replay: {})
         subject
@@ -50,7 +50,7 @@ RSpec.describe SalesforceStreamer::Server do
     end
   end
 
-  describe '#restart' do
+  describe "#restart" do
     subject { server.restart }
 
     let(:config) { SalesforceStreamer::Configuration.new }
@@ -61,7 +61,7 @@ RSpec.describe SalesforceStreamer::Server do
       server.run
     end
 
-    it 'resets Restforce client' do
+    it "resets Restforce client" do
       expect(Restforce).to receive(:new)
       subject
     end

@@ -1,7 +1,7 @@
 # frozen_string_litera: true
 
 RSpec.describe SalesforceStreamer::Configuration do
-  describe '.new' do
+  describe ".new" do
     subject { described_class.new }
 
     specify { expect(subject).to respond_to(:environment) }
@@ -15,70 +15,70 @@ RSpec.describe SalesforceStreamer::Configuration do
     specify { expect(subject).not_to respond_to(:push_topic_data=) }
   end
 
-  describe '#push_topic_data' do
+  describe "#push_topic_data" do
     subject { config.push_topic_data }
 
     let(:config) { described_class.new }
 
-    context 'when YAML file has development key' do
-      before { config.config_file = './spec/fixtures/configuration/config.yml' }
+    context "when YAML file has development key" do
+      before { config.config_file = "./spec/fixtures/configuration/config.yml" }
 
       specify { expect(subject).to be_a Hash }
     end
   end
 
-  describe '#exception_adapter.call(exception)' do
+  describe "#exception_adapter.call(exception)" do
     let(:config) { described_class.new }
 
-    context 'given an Exception' do
+    context "given an Exception" do
       subject { config.exception_adapter.call exception }
 
-      let(:exception) { StandardError.new('error') }
+      let(:exception) { StandardError.new("error") }
 
       specify { expect { subject }.to raise_exception { exception } }
     end
   end
 
-  describe '#replay_adapter[channel]' do
+  describe "#replay_adapter[channel]" do
     subject { config.replay_adapter["/topic/#{push_topic.name}"] }
 
     let(:config) { described_class.new }
 
-    context 'given a PushTopic' do
+    context "given a PushTopic" do
       let(:push_topic) { PushTopicFactory.make }
 
       specify { expect(subject).to eq(-1) }
     end
   end
 
-  describe '#middleware' do
+  describe "#middleware" do
     let(:config) { described_class.new }
 
-    describe '#size' do
+    describe "#size" do
       specify { expect(config.middleware.size).to eq 0 }
     end
 
-    context 'when #use_middleware' do
+    context "when #use_middleware" do
       let(:middleware) { Class.new }
 
       before do
         config.use_middleware middleware
       end
 
-      describe '#size' do
+      describe "#size" do
         specify { expect(config.middleware.size).to eq 1 }
       end
     end
   end
 
-  describe '#middleware_runner' do
+  describe "#middleware_runner" do
     subject { config.middleware_runner(proc {}) }
 
     let(:config) { described_class.new }
 
     specify { expect(subject).to respond_to :call }
 
-    context 'given some middleware' do
+    context "given some middleware" do
       let(:middleware_with_args) do
         Class.new do
           def initialize(app, arg1)
@@ -106,12 +106,12 @@ RSpec.describe SalesforceStreamer::Configuration do
 
       before do
         config.use_middleware(simple_middleware)
-        config.use_middleware(middleware_with_args, 'argument1')
+        config.use_middleware(middleware_with_args, "argument1")
       end
 
       specify { expect(subject).to respond_to :call }
 
-      describe '#call' do
+      describe "#call" do
         specify do
           expect(simple_middleware)
             .to receive(:new)
@@ -119,10 +119,10 @@ RSpec.describe SalesforceStreamer::Configuration do
             .and_call_original
           expect(middleware_with_args)
             .to receive(:new)
-            .with(Object, 'argument1')
+            .with(Object, "argument1")
             .and_call_original
 
-          expect(subject.call('hello')).to eq 'argument1'
+          expect(subject.call("hello")).to eq "argument1"
         end
       end
     end

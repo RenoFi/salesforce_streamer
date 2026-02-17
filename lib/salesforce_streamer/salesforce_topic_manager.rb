@@ -8,7 +8,7 @@ module SalesforceStreamer
     end
 
     def upsert_topics!
-      Log.info 'Starting to upsert PushTopic definitions into Salesforce'
+      Log.info "Starting to upsert PushTopic definitions into Salesforce"
       @push_topics.each do |push_topic|
         Log.info push_topic.name
         Log.debug push_topic.attributes.to_json
@@ -30,7 +30,7 @@ module SalesforceStreamer
       return true unless push_topic.notify_for_fields.eql?(hashie.NotifyForFields)
       return true unless push_topic.api_version.to_s.eql?(hashie.ApiVersion.to_s)
 
-      Log.info 'No differences detected'
+      Log.info "No differences detected"
       false
     end
 
@@ -39,7 +39,7 @@ module SalesforceStreamer
       if Configuration.instance.manage_topics?
         @client.upsert_push_topic(push_topic)
       else
-        Log.info 'Skipping upsert because manage topics is off'
+        Log.info "Skipping upsert because manage topics is off"
       end
     end
   end
