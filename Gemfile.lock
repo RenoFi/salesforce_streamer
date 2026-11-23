@@ -12,7 +12,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.9.2)
+    addressable (2.10.0)
       public_suffix (>= 2.0.2, < 8.0)
     ast (2.4.3)
     base64 (0.3.0)
@@ -42,17 +42,16 @@ GEM
       multipart-post (~> 2.0)
     faraday-net_http (3.5.0)
       net-http (~> 0.5)
-    faye (1.4.3)
+    faye (1.5.1)
       cookiejar (>= 0.3.0)
       em-http-request (>= 1.1.6)
       eventmachine (>= 0.12.0)
-      faye-websocket (>= 0.11.0)
+      faye-websocket (>= 0.13.0)
       multi_json (>= 1.0.0)
       rack (>= 1.0.0)
-      websocket-driver (>= 0.5.1)
-    faye-websocket (0.12.0)
+    faye-websocket (0.13.0)
       eventmachine (>= 0.12.0)
-      websocket-driver (>= 0.8.0)
+      websocket-driver (>= 0.9.0)
     hashie (5.2.0)
       logger
     http_parser.rb (0.8.1)
@@ -87,7 +86,7 @@ GEM
     prism (2.1.0)
     public_suffix (7.0.5)
     racc (1.8.1)
-    rack (3.2.8)
+    rack (3.2.9)
     rainbow (3.1.1)
     rake (13.4.2)
     rbs (4.2.0)
@@ -159,10 +158,10 @@ GEM
       unicode-emoji (~> 4.3)
     unicode-emoji (4.3.0)
     uri (1.1.2)
-    websocket-driver (0.8.2)
+    websocket-driver (0.9.0)
       base64
-      websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.5)
+      websocket-extensions (>= 0.2.0)
+    websocket-extensions (0.2.0)
 
 PLATFORMS
   ruby
